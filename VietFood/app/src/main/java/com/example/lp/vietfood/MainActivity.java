@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity
     ViewPager viewPager;
     SlideAdapter slideAdapter;
     String[] imgs; //= {R.drawable.daily1,R.drawable.daily2,R.drawable.daily3,R.drawable.daily4};
-    String[] SlideFoodName = {"Pizza Thập Cẩm","Humberger Bò","Trái Cây Dĩa","Cá Thu Nướng"};
 
     TabHost tabHost;
 
@@ -237,6 +236,9 @@ public class MainActivity extends AppCompatActivity
 //                viewPager = (ViewPager) findViewById(R.id.view_paper);
 //                viewPager.setAdapter(slideAdapter);
 //            }
+            if(number == 0) {
+                LoadHotRecipe();
+            }
             if(number == 1){
                 LoadMostView(contextParent);
 //                gv = (GridView) contextParent.findViewById(R.id.gridView);
@@ -288,6 +290,7 @@ public class MainActivity extends AppCompatActivity
                 gvtab4 = (GridView) findViewById(R.id.gridViewFragmentFour);
                 GridTab adaptertab4 = new GridTab(getApplication(), itemsmucdich);
                 gvtab4.setAdapter(adaptertab4);
+
             }
         }
 
@@ -296,7 +299,6 @@ public class MainActivity extends AppCompatActivity
             super.onPostExecute(aVoid);
             //Hàm này được thực hiện khi tiến trình kết thúc
             //Ở đây mình thông báo là đã "Finshed" để người dùng biết
-            Toast.makeText(contextParent, "Okie, Finished", Toast.LENGTH_SHORT).show();
         }
     }
 

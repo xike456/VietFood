@@ -1,8 +1,16 @@
 package com.example.lp.vietfood;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -10,6 +18,10 @@ import android.widget.TextView;
 
 import com.example.lp.vietfood.Helper.RecipeHelper;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+
+import org.w3c.dom.Text;
+
+import java.io.ByteArrayOutputStream;
 
 public class FoodDetail extends AppCompatActivity {
 
@@ -53,10 +65,12 @@ public class FoodDetail extends AppCompatActivity {
         TabHost host = (TabHost)findViewById(R.id.tabHostDetail);
         host.setup();
 
-        Recipe k = (Recipe) getIntent().getSerializableExtra("recipe");
+        final Recipe k = (Recipe) getIntent().getSerializableExtra("recipe");
 
-        ImageView imgView = (ImageView) findViewById(R.id.imgHeaderDetail);
-        TextView txtView = (TextView) findViewById(R.id.textDetailTenmon);
+        final ImageView imgView = (ImageView) findViewById(R.id.imgHeaderDetail);
+        final TextView txtView = (TextView) findViewById(R.id.textDetailTenmon);
+        final TextView url = (TextView) findViewById(R.id.Url);
+        url.setText( k.recipeName + '\n' + "Viet Food" + '\n'+ '\n'+ k.demoImage);
         UrlImageViewHelper.setUrlDrawable(imgView, k.demoImage);
         txtView.setText(k.recipeName);
         TabHost.TabSpec spec = host.newTabSpec("Nguyên Liệu");
@@ -79,5 +93,18 @@ public class FoodDetail extends AppCompatActivity {
                 ListView2Adapter(this, RecipeHelper.getStepFromRecipe(k));
         list2=(ListView)findViewById(R.id.listViewtabFoodDetail2);
         list2.setAdapter(adapter2);
+
+        ImageButton imageButton = (ImageButton) findViewById(R.id.imgButtonShare);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, url.getText());
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+
+            }
+        });
     }
 }
