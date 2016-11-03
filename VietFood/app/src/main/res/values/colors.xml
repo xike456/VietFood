@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF0000</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="Maunen">#FFFFFF</color>
+    <color name="MauchuDen">#000000</color>
+    <color name="Maunhat">#EEEEEE</color>
+    <color name="Mauxanhnhat">#33FFFF</color>
+</resources>

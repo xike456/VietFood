@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group>
+        <item
+            android:id="@+id/nav_index"
+            android:icon="@drawable/id"
+            android:title="Trang Chủ" />
+        <item
+            android:id="@+id/nav_video"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Video Hướng Dẫn" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Tìm Kiếm" />
+        <item
+            android:id="@+id/nav_aboutme"
+            android:icon="@drawable/ic_about_me"
+            android:title="About me" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,31 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.lp.vietfood.Index_Fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include
+                layout="@layout/slide"
+                android:id="@+id/includeSlide"
+                />
+            <include
+                layout="@layout/gridv"
+                android:id="@+id/includeGrid"
+                />
+            <include
+                layout="@layout/tab"
+                android:id="@+id/includeGrid"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

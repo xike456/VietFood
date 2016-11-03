@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "985358561718",
+    "firebase_url": "https://gothic-province-135023.firebaseio.com",
+    "project_id": "gothic-province-135023",
+    "storage_bucket": "gothic-province-135023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985358561718:android:a1aa6693b596cc72",
+        "android_client_info": {
+          "package_name": "com.qldapm.vietfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985358561718-9minp5v53de4lsj4ouh01nthkoaegrnk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF_R-pObW_rCp1pX04sWIY3ExkfBbi1gc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:985358561718:android:c740170728ff4950",
+        "android_client_info": {
+          "package_name": "com.example.lp.vietfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "985358561718-9minp5v53de4lsj4ouh01nthkoaegrnk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF_R-pObW_rCp1pX04sWIY3ExkfBbi1gc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
