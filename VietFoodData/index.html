@@ -8,9 +8,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
 <script src="https://code.angularjs.org/1.5.8/angular-sanitize.js"></script>
 	<script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.js"></script>
-
 	<script src="js/toastr.min.js"></script>
 	<script src="js/app.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <link rel ="stylesheet" href ="css/bootstrap.min.css">
 <link rel ="stylesheet" href = "css/bootstrap-theme.min.css">
@@ -59,24 +59,24 @@
                         <h4>Thêm công thức nấu ăn</h4>
                         <form>
                             <div class="form-group">
-                                <label>id</label>
-                                <input type="number" class="form-control" ng-model="txt_id" placeholder="Nhập mã món ăn" required >
+                                <label>$id Món ăn</label>
+                                <input type="number" class="form-control" ng-model="txt_id" placeholder="Nhập mã món ăn"  >
                             </div>
                             <div class="form-group">
-                                <label>recipeName</label>
-                                <input type="text" class="form-control" ng-model="txt_recipeName" placeholder="Nhập tên công thức món ăn" required>
+                                <label>Tên công thúc món ăn</label>
+                                <input type="text" class="form-control" ng-model="txt_recipeName" placeholder="Nhập tên công thức món ăn" >
                             </div>
                             <div class="form-group">
-                                <label>category</label>
-                                <input type="text" class="form-control" ng-model="txt_category" placeholder="Nhập loại món ăn" required>
+                                <label>Loại món ăn</label>
+                                <input type="text" class="form-control" ng-model="txt_category" placeholder="Nhập loại món ăn" >
                             </div>
                             <div class="form-group">
-                                <label>demoImage</label>
-                                <input type="text" class="form-control" ng-model="txt_demoImage" placeholder="Nhập link ảnh món ăn" required>
+                                <label>Ảnh món ăn</label>
+                                <input type="text" class="form-control" ng-model="txt_demoImage" placeholder="Nhập link ảnh món ăn" >
                             </div>
                             <div class="form-group">
-                                <label>difficulty</label>
-								<select ng-model="txt_difficulty" class="form-control" required>
+                                <label>Độ khó</label>
+								<select ng-model="txt_difficulty" class="form-control">
 									<option value="Rất dễ">Rất dễ</option>
 									<option value="Dễ">Dễ</option>
 									<option value="Trung Bình">Trung Bình</option>
@@ -84,28 +84,38 @@
 									<option value="Rất Khó">Rất Khó</option>
 								</select>
                             </div>
-							<div class="form-group" id="frmGiaVi" class="list-inline">
-								<label>ingredients</label>
-								<input type="text"  class="form-control" ng-model="txt_ingredients[0]" placeholder="Nhập gia vị món ăn" required>
-                                <input type="text"  class="form-control" ng-model="txt_ingredients2[0]" placeholder="Nhập số lượng gia vị" required>
+							<div class="form-group" class="list-inline">
+								<label>Gia vị</label>
+								<div class="row">
+									<div class="col-md-6" id="frmTenGiaVi">
+										<input type="text"  class="form-control" ng-model="txt_ingredients[0]" placeholder="Tên gia vị" >
+									</div>
+									<div class="col-md-6" id="frmSoLuongGiaVi">
+										<input type="text"  class="form-control" ng-model="txt_ingredients2[0]" placeholder="Số lượng" >
+									</div>
 
+								</div>
+								<button class="btn btn-warning btn-sm" ng-click="AddGiaVi()">Thêm Gia Vị</button>
+								<button class="btn btn-warning btn-sm" ng-click="DeleteGiaVi()">Xóa Gia Vị</button>
 
-
-                            </div>
-                            <button class="btn btn-warning btn-sm" ng-click="AddGiaVi()">Thêm Gia Vị</button>
-                            <div class="form-group">
-								<label>review</label>
-								<input type="text" class="form-control" ng-model="txt_review" placeholder="Nhập đánh giá món ăn" required>
 							</div>
-							<div class="form-group" id="frmStep">
-								<label>step</label>
-								<input type="text" class="form-control" ng-model="txt_step[0]" placeholder="Nhập các bước nấu món ăn" required>
-                            </div>
-                            <button class="btn btn-warning btn-sm" ng-click="AddStep()">Thêm Bước Làm</button>
+                            <div class="form-group">
+								<label>Đánh giá món ăn</label>
+								<textarea type="text" class="form-control" ng-model="txt_review" placeholder="Nhập đánh giá món ăn" ></textarea>
+							</div>
+							<div class="form-group" >
+								<label>Các bước thực hiện</label>
+								<div id="frmStep">
+									<textarea type="text" class="form-control" ng-model="txt_step[0]" placeholder="Bước 1" ></textarea>
+								</div>
+								<button class="btn btn-warning btn-sm" ng-click="AddStep()">Thêm Bước Làm</button>
+								<button class="btn btn-warning btn-sm" ng-click="DeleteStep()">Xóa Bước Làm</button>
+
+							</div>
 
                             <div class="form-group">
-								<label>time</label>
-								<input type="number" class="form-control" ng-model="txt_time" placeholder="Nhập thời gian nấu món ăn" required>
+								<label>Thời gian hoàn thành</label>
+								<input type="number" class="form-control" ng-model="txt_time" placeholder="Nhập thời gian nấu món ăn (phút)" >
 							</div>
 
                             <div class="form-group tableCenter">

@@ -14,8 +14,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 
 	//Default Values
 	$scope.divHome = false;
-	$scope.divShowData = true;
-	$scope.divAddData = false;
+	$scope.divShowData = false;
+	$scope.divAddData = true;
 	$scope.divUpload = false;
 
 	$scope.txt_id = '';
@@ -34,8 +34,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 
 	$scope.txt_time = '';
 
-	$scope.CountStep = 1;
-	$scope.CountGiavi = 1;
+	$scope.CountStep = 0;
+	$scope.CountGiavi = 0;
 
 	$scope.showHome = function () {
 		$scope.hideAll();
@@ -65,22 +65,44 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	};
 
 	$scope.AddGiaVi = function () {
-		var fGiaVi = angular.element( document.querySelector('#frmGiaVi'));
-		var input = angular.element('<label>=================</label><input type="text" class="form-control" ng-model="txt_ingredients['+ $scope.CountGiavi+']" placeholder="Nhập gia vị món ăn"><input type="text" class="form-control" ng-model="txt_ingredients2['+ $scope.CountGiavi+']" placeholder="Nhập số lượng gia vị">');
-		var compile = $compile(input)($scope);
-		fGiaVi.append(input);
 		$scope.CountGiavi++;
+		var fTenGV = angular.element( document.querySelector('#frmTenGiaVi'));
+		var fSoLuongGV = angular.element( document.querySelector('#frmSoLuongGiaVi'));
+
+		var inputTenGV = angular.element('<input type="text" id="idTenGV'+ $scope.CountGiavi +'" class="form-control" ng-model="txt_ingredients['+ $scope.CountGiavi +']" placeholder="Tên gia vị">');
+		var inputSoLuongGV = angular.element('<input type="text" id="idSoLuongGV'+ $scope.CountGiavi +'" class="form-control" ng-model="txt_ingredients2['+ $scope.CountGiavi +']" placeholder="Số lượng" >');
+
+		var compile = $compile(inputTenGV)($scope);
+		compile = $compile(inputSoLuongGV)($scope);
+
+		fTenGV.append(inputTenGV);
+		fSoLuongGV.append(inputSoLuongGV);
 		};
 
-	$scope.AddStep = function () {
-		var fStep = angular.element( document.querySelector('#frmStep'));
-		var input = angular.element('<input type="text" class="form-control" ng-model="txt_step['+ $scope.CountStep +']" placeholder="Nhập các bước nấu món ăn" >');
-		var compile = $compile(input)($scope);
-		fStep.append(input);
-		$scope.CountStep++;
+	$scope.DeleteGiaVi = function () {
+		if ($scope.CountGiavi==0) return;
+		var fTenGV = angular.element( document.querySelector('#idTenGV'+ $scope.CountGiavi +''));
+		var fSoLuongGV = angular.element( document.querySelector('#idSoLuongGV'+ $scope.CountGiavi +''));
+
+		fTenGV.remove();
+		fSoLuongGV.remove();
+		$scope.CountGiavi--;
 	};
 
+	$scope.AddStep = function () {
+		$scope.CountStep++;
+		var fStep = angular.element( document.querySelector('#frmStep'));
+		var input = angular.element('<textarea type="text" id="idStep'+ $scope.CountStep +'" class="form-control" ng-model="txt_step['+ $scope.CountStep +']" placeholder="Bước '+ ($scope.CountStep + 1) +'" ></textarea>');
+		var compile = $compile(input)($scope);
+		fStep.append(input);
+	};
 
+	$scope.DeleteStep = function () {
+		if ($scope.CountStep==0) return;
+		var fStep = angular.element( document.querySelector('#idStep'+ $scope.CountStep +''));
+		fStep.remove();
+		$scope.CountStep--;
+	};
 
 
 	$scope.AddRecipe = function () {
