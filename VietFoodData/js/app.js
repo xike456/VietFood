@@ -3,10 +3,6 @@
 var app = angular.module('VietFoodApp', ["firebase"]);
 app.controller('VietFoodController', function ($scope, $firebaseObject, $firebaseArray, $compile) {
 
-	var ref2 = firebase.database().ref();
-	// download the data into a local object
-	$scope.data = $firebaseObject(ref2);
-
 	var ref = firebase.database().ref("recipes/all");
 	// download the data into a local object
 	$scope.recipes = $firebaseArray(ref);
@@ -15,8 +11,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	//Default Values
 	$scope.divHome = false;
 	$scope.divShowData = false;
-	$scope.divAddData = true;
-	$scope.divUpload = false;
+	$scope.divAddData = false;
+	$scope.divUpload = true;
 
 	$scope.txt_id = '';
 	$scope.txt_recipeName = '';
@@ -140,8 +136,52 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		});
 		console.log($scope.txt_step);
 		console.log($scope.txt_ingredients);
-
-
 	}
 
+	$scope.uploadFile = function(){
+
+		// Create a root reference
+		var storageRef = firebase.storage().ref();
+
+		var selectedFile = $('#input')[0].files[0];
+
+		var metadata = {
+			contentType: 'image/jpeg'
+		};
+
+		var uploadTask = storageRef.child('images/' + selectedFile.name).put(selectedFile, metadata);
+
+		uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+			function(snapshot) {
+				var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				console.log('Upload is ' + progress + '% done');
+				switch (snapshot.state) {
+					case firebase.storage.TaskState.PAUSED: // or 'paused'
+						console.log('Upload is paused');
+						break;
+					case firebase.storage.TaskState.RUNNING: // or 'running'
+						console.log('Upload is running');
+						break;
+				}
+			}, function(error) {
+				switch (error.code) {
+					case 'storage/unauthorized':
+						break;
+
+					case 'storage/canceled':
+						break;
+
+					case 'storage/unknown':
+						// Unknown error occurred, inspect error.serverResponse
+						break;
+				}
+			}, function() {
+				var downloadURL = uploadTask.snapshot.downloadURL;
+				console.log(downloadURL);
+				var fpreview = angular.element( document.querySelector('#previewImg'));
+				var input = angular.element('<img src="'+ downloadURL +'" width="150" height="150">');
+				var compile = $compile(input)($scope);
+				fpreview.append(input);
+			});
+	};
 });

@@ -45,7 +45,7 @@
         <!-- div for home -->
         <div ng-show="divHome">
             <div style="margin-left: 10px;">
-                <h4>Trang chủ:     </h4>
+                <h4>Trang chủ:</h4>
                 
             </div>
         </div>
@@ -175,36 +175,13 @@
 			<div class="row" style="width: 90%; margin-left: 5px;">
 				<div class="col-md-4">
 					<div>
-						<h4>Thêm chuyến bay mới</h4>
-						<form>
-							<div class="form-group">
-								<label>Mã chuyến bay</label>
-								<input type="text" class="form-control" ng-model="inp_airCode" placeholder="Nhập mã chuyến bay" >
-							</div>
-							<div class="form-group">
-								<label>Giá phổ thông</label>
-								<input type="number" class="form-control" ng-model="inp_airPE" placeholder="Nhập giá vé phổ thông" >
-							</div>
-							<div class="form-group">
-								<label>Giá thương gia</label>
-								<input type="number" class="form-control" ng-model="inp_airPF" placeholder="Nhập giá vé thương gia" >
-							</div>
-							<div class="form-group">
-								<label>Số ghế phổ thông</label>
-								<input type="number" class="form-control" ng-model="inp_airSE" placeholder="Nhập số ghế phổ thông" >
-							</div>
-							<div class="form-group">
-								<label>Số ghế thương gia</label>
-								<input type="number" class="form-control" ng-model="inp_airSF" placeholder="Nhập số ghế thương gia" >
-							</div>
-							<div class="form-group tableCenter">
-								<button class="btn btn-success" ng-click="AddAirline()">
-									<!--<span class="glyphicon glyphicon-save"></span>-->
-									Tạo Chuyến Bay
-								</button>
-							</div>
-						</form>
+						<h4>Upload File</h4>
+						<input type="file" id="input">
+						<button ng-click = "uploadFile()">upload me</button>
 					</div>
+				</div>
+				<div class="col-md-4" id="previewImg">
+
 				</div>
 			</div>
 		</div>
