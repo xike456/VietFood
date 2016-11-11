@@ -7,14 +7,14 @@
     <TabHost
         android:id="@+id/tabHostDetail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TabWidget
@@ -23,22 +23,51 @@
                 android:layout_height="wrap_content"
                 android:background="@color/Maunhat"></TabWidget>
 
+
+
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/tab_fooddetail3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/textReview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <RelativeLayout
+                        android:layout_marginTop="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comments"
+                            android:background="@color/Mauxanhnhat"
+                            android:textSize="20sp"/>
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_alignParentBottom="true"
+                            android:layout_height="wrap_content">
+
+                            <include layout="@layout/comment" />
+                        </ScrollView>
+                    </RelativeLayout>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/tab_fooddetail1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="15dp"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nguyên Liệu"
-                        android:textSize="18dp"
-                        android:textColor="@color/colorPrimary"/>
                     <ListView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -50,33 +79,23 @@
                     android:id="@+id/tab_fooddetail2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bước Thực Hiện"
-                        android:textSize="18dp"
-                        android:textColor="@color/colorPrimary"/>
                     <ListView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/listViewtabFoodDetail2"></ListView>
 
                 </LinearLayout>
+
+
             </FrameLayout>
         </LinearLayout>
     </TabHost>
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageButton
-            android:layout_width="120dp"
-            android:id="@+id/imgButtonShare"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="15dp"
-            android:src="@drawable/share"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"

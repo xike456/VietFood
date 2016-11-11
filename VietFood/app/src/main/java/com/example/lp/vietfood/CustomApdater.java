@@ -34,6 +34,9 @@ public class CustomApdater extends BaseAdapter {
         this.recipes = recipes;
     }
 
+
+
+
     @Override
     public int getCount() {
         return FoodName.length;
@@ -76,5 +79,6 @@ public class CustomApdater extends BaseAdapter {
         return v;
 
     }
+
 }
 

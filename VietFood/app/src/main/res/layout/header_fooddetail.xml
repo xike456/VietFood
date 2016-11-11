@@ -2,20 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@drawable/backgrouddtail"
     android:layout_height="180dp">
 
     <ImageView
         android:id="@+id/imgHeaderDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scaleType="centerCrop"
         android:src="@drawable/daily1"/>
-    <TextView
+    <ImageButton
         android:layout_width="wrap_content"
+        android:id="@+id/imgButtonShare"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="#00000000"
+        android:layout_margin="15dp"
+        android:src="@drawable/share"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:id="@+id/imgButtonBookmark"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="#00000000"
+        android:layout_margin="15dp"
+        android:src="@drawable/bookmark"/>
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Pizza Hải Sản"
         android:textColor="@color/Maunen"
-        android:layout_margin="15dp"
+        android:background="#7f000000"
         android:id="@+id/textDetailTenmon"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

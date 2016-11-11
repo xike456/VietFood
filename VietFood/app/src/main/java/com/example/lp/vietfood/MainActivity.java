@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity
     GridView gvtab2;
     GridView gvtab3;
     GridView gvtab4;
-    String[] itemsthucdon = {"Món Khai Vị","Món Tráng Miệng","Món Chay","Món Chính","Món Ăn Sáng","Nhanh và Dễ","Thức Uống", "Bánh - Bánh Ngọt","Món Ăn Cho Trẻ"};
-    String[] itemsloaimon = {"Salad", "Nước Chấm", "Canh", "Lẩu", "Nộm - Gỏi", "Soup - Cháo", "Nem - Chả", "Bánh Ngọt", "Sinh Tố", "Nước Ép", "Cocktail", "Kem", "Chè", "Mứt", "Đồ Sống", "Snacks", "Cupcake", "Pasta", "Hủ Tiếu", "Bún - Mì - Phở", "Đồ Uống"};
-    String[] itemsamthuc = {"Việt Nam", "Thái Lan", "Ý", "Hàn Quốc", "Âu", "Nhật", "Trung Quốc", "Ấn Độ", "Singapore", "Pháp", "Mỹ", "Nga", "Brazil"};
-    String[] itemsmucdich = {"Ăn Sáng", "Ăn Trưa", "Ăn Kiêng", "Giảm Cân", "Cho Phái Mạnh", "Ăn Vặt", "Tiệc", "Ăn Chay", "Chữa Bệnh", "Ăn Gia Đình", "Phụ Nữ Sau Khi Sinh", "Phụ Nữ Mang Thai", "Tăng Cân", "Cho trẻ em", "Ăn Tối", "Tốt Cho Tim Mạch"};
+    String[] itemsthucdon = {"Món Khai Vị","Món Tráng Miệng","Món Chay","Món Chính","Món Ăn Sáng","Nhanh và Dễ","Thức Uống", "Bánh - Bánh Ngọt"};
+    String[] itemsloaimon = {"Salad", "Nước Chấm", "Canh", "Lẩu", "Nộm - Gỏi", "Soup - Cháo", "Nem - Chả"};
+    String[] itemsamthuc = {"Việt Nam", "Thái Lan", "Ý", "Hàn Quốc", "Âu", "Nhật", "Trung Quốc", "Ấn Độ"};
+    String[] itemsmucdich = {"Ăn Sáng", "Ăn Trưa", "Ăn Kiêng", "Giảm Cân", "Cho Phái Mạnh", "Ăn Vặt", "Tiệc", "Ăn Chay"};
 
     //Grid database
     String[] FoodName = {"Mực Nướng","Bò Xào","Canh Chua","Thịt Kho","Rau Luộc","Thính Rang"};
@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         HanderIndex();
-        LoadHotRecipe();
     }
 
     //Load data for slide view

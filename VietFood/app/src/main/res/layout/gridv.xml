@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="330dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     >
 
@@ -16,7 +16,7 @@
 
     <GridView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="330dp"
         android:id="@+id/gridView"
         android:numColumns="3"
         android:columnWidth="120dp"

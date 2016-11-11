@@ -6,15 +6,16 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="180dp"
+        android:scaleType="fitXY"
         android:id="@+id/imageView"
         android:src="@drawable/daily1"/>
     <TextView
         android:id="@+id/textSlide"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cháo Lòng Tiết Canh"
         android:textSize="15dp"
-        android:layout_margin="8dp"
+        android:background="#7f000000"
         android:textColor="@color/Maunen"
         android:layout_alignBottom="@+id/imageView"
         android:layout_alignLeft="@+id/imageView"

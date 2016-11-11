@@ -1,12 +1,6 @@
 package com.example.lp.vietfood;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,10 +12,6 @@ import android.widget.TextView;
 
 import com.example.lp.vietfood.Helper.RecipeHelper;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
-
-import org.w3c.dom.Text;
-
-import java.io.ByteArrayOutputStream;
 
 public class FoodDetail extends AppCompatActivity {
 
@@ -73,6 +63,7 @@ public class FoodDetail extends AppCompatActivity {
         url.setText( k.recipeName + '\n' + "Viet Food" + '\n'+ '\n'+ k.demoImage);
         UrlImageViewHelper.setUrlDrawable(imgView, k.demoImage);
         txtView.setText(k.recipeName);
+
         TabHost.TabSpec spec = host.newTabSpec("Nguyên Liệu");
         spec.setContent(R.id.tab_fooddetail1);
         spec.setIndicator("Nguyên Liệu");
@@ -90,9 +81,20 @@ public class FoodDetail extends AppCompatActivity {
         host.addTab(spec);
 
         ListView2Adapter adapter2 = new
-                ListView2Adapter(this, RecipeHelper.getStepFromRecipe(k));
+                ListView2Adapter(this, RecipeHelper.getStepFromRecipe(k), RecipeHelper.getStepImgFromRecipe(k));
         list2=(ListView)findViewById(R.id.listViewtabFoodDetail2);
         list2.setAdapter(adapter2);
+
+        //Tab 3
+        spec = host.newTabSpec("Review");
+        spec.setContent(R.id.tab_fooddetail3);
+        spec.setIndicator("Review");
+        host.addTab(spec);
+
+        TextView review = (TextView) findViewById(R.id.textReview);
+        review.setText(k.review);
+
+        host.setCurrentTab(2);
 
         ImageButton imageButton = (ImageButton) findViewById(R.id.imgButtonShare);
         imageButton.setOnClickListener(new View.OnClickListener() {

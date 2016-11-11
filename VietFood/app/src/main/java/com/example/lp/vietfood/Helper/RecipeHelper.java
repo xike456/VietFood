@@ -51,4 +51,20 @@ public class RecipeHelper {
         }
         return temp.toArray(new String[0]);
     }
+
+    public static String[] getStepImgFromRecipe(Recipe recipe){
+        List<String> temp = new ArrayList<String>();
+        for (Step r:recipe.steps) {
+            temp.add(r.image);
+        }
+        return temp.toArray(new String[0]);
+    }
+
+    public static String[] getReviewFromRecipes(List<Recipe> recipes){
+        List<String> temp = new ArrayList<String>();
+        for (Recipe r:recipes) {
+            temp.add(r.review);
+        }
+        return temp.toArray(new String[0]);
+    }
 }
