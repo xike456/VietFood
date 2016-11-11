@@ -98,7 +98,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/9.8.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.8.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.8.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/9.8.0/jars" />
@@ -135,7 +134,6 @@
     <orderEntry type="library" exported="" name="firebase-database-9.8.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-analytics-impl-9.8.0" level="project" />
     <orderEntry type="library" exported="" name="urlimageviewhelper-1.0.4" level="project" />
-    <orderEntry type="library" exported="" name="play-services-appindexing-9.8.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-database-connection-9.8.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-core-9.8.0" level="project" />
     <orderEntry type="library" exported="" name="firebase-common-9.8.0" level="project" />

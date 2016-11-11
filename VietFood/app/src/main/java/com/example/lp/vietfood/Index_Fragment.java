@@ -26,4 +26,6 @@ public class Index_Fragment extends Fragment {
         return inflater.inflate(R.layout.fragment_index_, container, false);
     }
 
+
+
 }

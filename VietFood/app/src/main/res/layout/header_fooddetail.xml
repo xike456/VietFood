@@ -33,6 +33,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Pizza Hải Sản"
         android:textColor="@color/Maunen"

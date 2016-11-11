@@ -51,7 +51,7 @@ public class SlideAdapter extends PagerAdapter{
         ImageView img = (ImageView)v.findViewById(R.id.imageView);
         //img.setImageResource(imgs[position]);
         UrlImageViewHelper.setUrlDrawable(img, imgs[position]);
-        img.setScaleType(ImageView.ScaleType.FIT_XY);
+        img.setScaleType(ImageView.ScaleType.CENTER_CROP);
         TextView foodName = (TextView) v.findViewById(R.id.textSlide);
         foodName.setText(textSlide[position]);
 
