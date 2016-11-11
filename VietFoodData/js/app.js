@@ -3,10 +3,6 @@
 var app = angular.module('VietFoodApp', ["firebase"]);
 app.controller('VietFoodController', function ($scope, $firebaseObject, $firebaseArray, $compile) {
 
-	var ref2 = firebase.database().ref();
-	// download the data into a local object
-	$scope.data = $firebaseObject(ref2);
-
 	var ref = firebase.database().ref("recipes/all");
 	// download the data into a local object
 	$scope.recipes = $firebaseArray(ref);
@@ -14,9 +10,9 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 
 	//Default Values
 	$scope.divHome = false;
-	$scope.divShowData = true;
+	$scope.divShowData = false;
 	$scope.divAddData = false;
-	$scope.divUpload = false;
+	$scope.divUpload = true;
 
 	$scope.txt_id = '';
 	$scope.txt_recipeName = '';
@@ -34,8 +30,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 
 	$scope.txt_time = '';
 
-	$scope.CountStep = 1;
-	$scope.CountGiavi = 1;
+	$scope.CountStep = 0;
+	$scope.CountGiavi = 0;
 
 	$scope.showHome = function () {
 		$scope.hideAll();
@@ -65,22 +61,44 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	};
 
 	$scope.AddGiaVi = function () {
-		var fGiaVi = angular.element( document.querySelector('#frmGiaVi'));
-		var input = angular.element('<label>=================</label><input type="text" class="form-control" ng-model="txt_ingredients['+ $scope.CountGiavi+']" placeholder="Nhập gia vị món ăn"><input type="text" class="form-control" ng-model="txt_ingredients2['+ $scope.CountGiavi+']" placeholder="Nhập số lượng gia vị">');
-		var compile = $compile(input)($scope);
-		fGiaVi.append(input);
 		$scope.CountGiavi++;
+		var fTenGV = angular.element( document.querySelector('#frmTenGiaVi'));
+		var fSoLuongGV = angular.element( document.querySelector('#frmSoLuongGiaVi'));
+
+		var inputTenGV = angular.element('<input type="text" id="idTenGV'+ $scope.CountGiavi +'" class="form-control" ng-model="txt_ingredients['+ $scope.CountGiavi +']" placeholder="Tên gia vị">');
+		var inputSoLuongGV = angular.element('<input type="text" id="idSoLuongGV'+ $scope.CountGiavi +'" class="form-control" ng-model="txt_ingredients2['+ $scope.CountGiavi +']" placeholder="Số lượng" >');
+
+		var compile = $compile(inputTenGV)($scope);
+		compile = $compile(inputSoLuongGV)($scope);
+
+		fTenGV.append(inputTenGV);
+		fSoLuongGV.append(inputSoLuongGV);
 		};
 
-	$scope.AddStep = function () {
-		var fStep = angular.element( document.querySelector('#frmStep'));
-		var input = angular.element('<input type="text" class="form-control" ng-model="txt_step['+ $scope.CountStep +']" placeholder="Nhập các bước nấu món ăn" >');
-		var compile = $compile(input)($scope);
-		fStep.append(input);
-		$scope.CountStep++;
+	$scope.DeleteGiaVi = function () {
+		if ($scope.CountGiavi==0) return;
+		var fTenGV = angular.element( document.querySelector('#idTenGV'+ $scope.CountGiavi +''));
+		var fSoLuongGV = angular.element( document.querySelector('#idSoLuongGV'+ $scope.CountGiavi +''));
+
+		fTenGV.remove();
+		fSoLuongGV.remove();
+		$scope.CountGiavi--;
 	};
 
+	$scope.AddStep = function () {
+		$scope.CountStep++;
+		var fStep = angular.element( document.querySelector('#frmStep'));
+		var input = angular.element('<textarea type="text" id="idStep'+ $scope.CountStep +'" class="form-control" ng-model="txt_step['+ $scope.CountStep +']" placeholder="Bước '+ ($scope.CountStep + 1) +'" ></textarea>');
+		var compile = $compile(input)($scope);
+		fStep.append(input);
+	};
 
+	$scope.DeleteStep = function () {
+		if ($scope.CountStep==0) return;
+		var fStep = angular.element( document.querySelector('#idStep'+ $scope.CountStep +''));
+		fStep.remove();
+		$scope.CountStep--;
+	};
 
 
 	$scope.AddRecipe = function () {
@@ -118,8 +136,52 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		});
 		console.log($scope.txt_step);
 		console.log($scope.txt_ingredients);
-
-
 	}
 
+	$scope.uploadFile = function(){
+
+		// Create a root reference
+		var storageRef = firebase.storage().ref();
+
+		var selectedFile = $('#input')[0].files[0];
+
+		var metadata = {
+			contentType: 'image/jpeg'
+		};
+
+		var uploadTask = storageRef.child('images/' + selectedFile.name).put(selectedFile, metadata);
+
+		uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+			function(snapshot) {
+				var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				console.log('Upload is ' + progress + '% done');
+				switch (snapshot.state) {
+					case firebase.storage.TaskState.PAUSED: // or 'paused'
+						console.log('Upload is paused');
+						break;
+					case firebase.storage.TaskState.RUNNING: // or 'running'
+						console.log('Upload is running');
+						break;
+				}
+			}, function(error) {
+				switch (error.code) {
+					case 'storage/unauthorized':
+						break;
+
+					case 'storage/canceled':
+						break;
+
+					case 'storage/unknown':
+						// Unknown error occurred, inspect error.serverResponse
+						break;
+				}
+			}, function() {
+				var downloadURL = uploadTask.snapshot.downloadURL;
+				console.log(downloadURL);
+				var fpreview = angular.element( document.querySelector('#previewImg'));
+				var input = angular.element('<img src="'+ downloadURL +'" width="150" height="150">');
+				var compile = $compile(input)($scope);
+				fpreview.append(input);
+			});
+	};
 });
