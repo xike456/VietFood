@@ -46,6 +46,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     //aSYNTASK
+    public static User user = new User();
 
     MyAsyncTask myAsyncTask;
     //GridView
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity
                     Recipe a = (Recipe) dt.getValue(Recipe.class);
                     String k = dt.getKey();
                     a.id = k;
+                    a.path = "/recipes/hot/";
                     hotRecipes.add(a);
                 }
 //                SlideFoodName = RecipeHelper.getNameFromRecipes(hotRecipes);
@@ -137,6 +139,7 @@ public class MainActivity extends AppCompatActivity
                     Recipe a = (Recipe) dt.getValue(Recipe.class);
                     String k = dt.getKey();
                     a.id = k;
+                    a.path = "/recipes/mostView/";
                     mostViewRecipes.add(a);
                 }
                 gv = (GridView) contextParent.findViewById(R.id.gridView);

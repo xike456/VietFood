@@ -1,19 +1,35 @@
 package com.example.lp.vietfood;
 
 import android.content.Intent;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lp.vietfood.Helper.RecipeHelper;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
-public class FoodDetail extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class FoodDetail extends AppCompatActivity  implements View.OnClickListener{
+
+    FirebaseDatabase firebaseDatabase;
+    ImageView btnSend;
+    EditText editComment;
+    Recipe k;
 
     ListView list;
     ListView list2;
@@ -55,7 +71,7 @@ public class FoodDetail extends AppCompatActivity {
         TabHost host = (TabHost)findViewById(R.id.tabHostDetail);
         host.setup();
 
-        final Recipe k = (Recipe) getIntent().getSerializableExtra("recipe");
+        k = (Recipe) getIntent().getSerializableExtra("recipe");
 
         final ImageView imgView = (ImageView) findViewById(R.id.imgHeaderDetail);
         final TextView txtView = (TextView) findViewById(R.id.textDetailTenmon);
@@ -108,5 +124,49 @@ public class FoodDetail extends AppCompatActivity {
 
             }
         });
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        btnSend = (ImageView) findViewById(R.id.send);
+        editComment = (EditText) findViewById(R.id.edittextcomment);
+
+        btnSend.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == btnSend){
+            if(editComment.getText().toString()!=""){
+                Comment(k, editComment.getText().toString());
+            }
+            else            {
+                Toast.makeText(FoodDetail.this, "commend fail",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void Comment(Recipe k, String comment){
+        Map<String,Object> comments = AddComment(k, comment);
+        DatabaseReference ref = firebaseDatabase.getReference(k.path);
+        DatabaseReference ref2 = ref.child(k.id);
+        ref2.updateChildren(comments);
+    }
+
+    public Map AddComment(Recipe k, String comment) {
+        Map<String,Object> comments = new HashMap<String,Object>();
+        List<Comment> listComment = new ArrayList<Comment>();
+        if (k.comment != null) {
+            for (Comment temp: k.comment) {
+                listComment.add(temp);
+            }
+        }
+
+        Comment c = new Comment();
+        c.comment = comment;
+        c.email = MainActivity.user.name;
+        listComment.add(c);
+        k.comment.add(c);
+        comments.put("comment", listComment);
+        return comments;
     }
 }

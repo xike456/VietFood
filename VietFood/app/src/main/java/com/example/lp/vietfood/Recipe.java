@@ -4,13 +4,13 @@ package com.example.lp.vietfood;
  * Created by LP on 11/1/2016.
  */
 
-import org.w3c.dom.Comment;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe implements Serializable{
     public String id;
+    public String path = "/recipes/all/";
     public String recipeName;
     public String review;
     public String category;
@@ -20,7 +20,7 @@ public class Recipe implements Serializable{
     public List<Step> steps;
     public String difficulty;
     public String demoImage;
-    public List<Comment> comment;
+    public List<Comment> comment = new ArrayList<>();
 
     public Recipe(){}
 
@@ -28,6 +28,7 @@ public class Recipe implements Serializable{
     public String toString() {
         return "Recipe{" +
                 "id='" + id + '\'' +
+                ", path='" + path + '\'' +
                 ", recipeName='" + recipeName + '\'' +
                 ", review='" + review + '\'' +
                 ", category='" + category + '\'' +
