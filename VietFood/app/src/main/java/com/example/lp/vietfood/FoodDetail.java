@@ -5,6 +5,7 @@ import android.support.v4.media.MediaBrowserCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,8 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lp.vietfood.Helper.RecipeHelper;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import java.util.ArrayList;
@@ -30,6 +34,9 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
     ImageView btnSend;
     EditText editComment;
     Recipe k;
+    ListCommentAdapter commentAdapter;
+    ListView commentsLv;
+    List<Comment> commentList;
 
     ListView list;
     ListView list2;
@@ -127,6 +134,7 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         increaseView(k);
+        loadComment();
         btnSend = (ImageView) findViewById(R.id.send);
         editComment = (EditText) findViewById(R.id.edittextcomment);
 
@@ -168,6 +176,8 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         listComment.add(c);
         k.comment.add(c);
         comments.put("comment", listComment);
+        commentList.add(c);
+        ((BaseAdapter)commentsLv.getAdapter()).notifyDataSetChanged();
         return comments;
     }
 
@@ -178,5 +188,27 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         DatabaseReference ref = firebaseDatabase.getReference(k.path);
         DatabaseReference ref2 = ref.child(k.id);
         ref2.updateChildren(view);
+    }
+
+    public void loadComment() {
+        DatabaseReference ref = firebaseDatabase.getReference(k.path + k.id + "/comment");
+        commentList = new ArrayList<>();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot dt: dataSnapshot.getChildren()){
+                    Comment a = (Comment) dt.getValue(Comment.class);
+                    commentList.add(a);
+                }
+                commentAdapter = new ListCommentAdapter(FoodDetail.this, commentList);
+                commentsLv = (ListView) findViewById(R.id.listComment);
+                commentsLv.setAdapter(commentAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -119,8 +119,6 @@ public class MainActivity extends AppCompatActivity
                     a.path = "/recipes/hot/";
                     hotRecipes.add(a);
                 }
-//                SlideFoodName = RecipeHelper.getNameFromRecipes(hotRecipes);
-//                imgs = RecipeHelper.getImageLinkFromRecipes(hotRecipes);
                 slideAdapter = new SlideAdapter(getApplicationContext(), hotRecipes);
                 viewPager = (ViewPager) findViewById(R.id.view_paper);
                 viewPager.setAdapter(slideAdapter);

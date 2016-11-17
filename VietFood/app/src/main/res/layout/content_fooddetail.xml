@@ -46,18 +46,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <TextView
+                            android:id="@+id/txt_comment"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Comments"
                             android:background="@color/Mauxanhnhat"
                             android:textSize="20sp"/>
-                        <ScrollView
+                        <LinearLayout
+                            android:layout_below="@id/txt_comment"
                             android:layout_width="match_parent"
                             android:layout_alignParentBottom="true"
                             android:layout_height="wrap_content">
 
                             <include layout="@layout/comment" />
-                        </ScrollView>
+                        </LinearLayout>
                     </RelativeLayout>
 
                 </LinearLayout>

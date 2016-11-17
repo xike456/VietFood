@@ -5,23 +5,40 @@ package com.example.lp.vietfood;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.ArrayAdapter;
+        import android.widget.BaseAdapter;
         import android.widget.ImageView;
         import android.widget.TextView;
 
         import com.example.lp.vietfood.R;
 
-public class ListCommentAdapter extends ArrayAdapter<String> {
+        import java.util.List;
+
+public class ListCommentAdapter extends BaseAdapter {
 
     private final Activity context;
-    private final String[] username;
-    private final String[] comment;
+    private final List<Comment> listComment;
     public ListCommentAdapter(Activity context,
-                              String[] username, String[] comment) {
-        super(context, R.layout.itemcomment, username);
+                              List<Comment> listComment) {
+        this.listComment = listComment;
+        //super(context, R.layout.itemcomment,);
         this.context = context;
-        this.username = username;
-        this.comment = comment;
     }
+
+    @Override
+    public int getCount() {
+        return 0;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
@@ -29,8 +46,8 @@ public class ListCommentAdapter extends ArrayAdapter<String> {
         TextView user = (TextView) rowView.findViewById(R.id.username);
         TextView cmt = (TextView) rowView.findViewById(R.id.comment) ;
 
-        user.setText(username[position]);
-        cmt.setText(comment[position]);
+        user.setText(listComment.get(position).email);
+        cmt.setText(listComment.get(0).comment);
 
         return rowView;
     }
