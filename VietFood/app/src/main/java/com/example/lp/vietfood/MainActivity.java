@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     TabHost tabHost;
 
     //Firebase instance
-    private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private static FirebaseDatabase firebaseDatabase;
     private static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     //List recipes
@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Index Fragment When Open App
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
         GetIndexFragment();
 
 
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void LoadMostView(final Activity contextParent){
-        firebaseDatabase.getReference("/recipes/mostView/").addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseDatabase.getReference("/recipes/all/").orderByChild("view").limitToLast(6).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity
                     Recipe a = (Recipe) dt.getValue(Recipe.class);
                     String k = dt.getKey();
                     a.id = k;
-                    a.path = "/recipes/mostView/";
+                    a.path = "/recipes/all/";
                     mostViewRecipes.add(a);
                 }
                 gv = (GridView) contextParent.findViewById(R.id.gridView);

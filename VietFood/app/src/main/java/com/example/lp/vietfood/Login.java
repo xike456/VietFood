@@ -23,6 +23,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private EditText editPass;
     private Button btnLogin;
     private TextView txtSkip;
+    private TextView txtRegister;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -35,10 +36,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         editPass = (EditText) findViewById(R.id.edit_password);
         btnLogin = (Button) findViewById(R.id.btn_login);
         txtSkip = (TextView) findViewById(R.id.txt_skip);
+        txtRegister = (TextView) findViewById(R.id.txt_register);
         firebaseAuth = FirebaseAuth.getInstance();
 
         btnLogin.setOnClickListener(this);
         txtSkip.setOnClickListener(this);
+        txtRegister.setOnClickListener(this);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -68,6 +71,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         if(v == txtSkip){
             startMainActivity();
         }
+
+        if (v == txtRegister) {
+            startRegisterActivity();
+        }
     }
 
     public void loginFirebase(String email, String password){
@@ -92,6 +99,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         Intent i = new Intent(Login.this, MainActivity.class);
         startActivity(i);
         finish();
+    }
+
+    public void startRegisterActivity() {
+        Intent i = new Intent(Login.this, Register.class);
+        startActivity(i);
     }
 
     @Override

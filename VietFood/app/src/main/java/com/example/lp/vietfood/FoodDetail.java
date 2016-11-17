@@ -126,6 +126,7 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         });
 
         firebaseDatabase = FirebaseDatabase.getInstance();
+        increaseView(k);
         btnSend = (ImageView) findViewById(R.id.send);
         editComment = (EditText) findViewById(R.id.edittextcomment);
 
@@ -168,5 +169,14 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         k.comment.add(c);
         comments.put("comment", listComment);
         return comments;
+    }
+
+    public void increaseView(Recipe k) {
+        Map<String, Object> view = new HashMap<>();
+        long temp = k.view +=1;
+        view.put("view", temp);
+        DatabaseReference ref = firebaseDatabase.getReference(k.path);
+        DatabaseReference ref2 = ref.child(k.id);
+        ref2.updateChildren(view);
     }
 }

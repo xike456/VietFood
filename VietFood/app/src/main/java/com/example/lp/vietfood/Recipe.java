@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe implements Serializable{
+    public long view = 0;
     public String id;
     public String path = "/recipes/all/";
     public String recipeName;
