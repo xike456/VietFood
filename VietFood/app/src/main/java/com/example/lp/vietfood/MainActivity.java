@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.util.TypedValue;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity
     private List<Recipe> hotRecipes = new ArrayList<Recipe>();
     private List<Recipe> mostViewRecipes = new ArrayList<Recipe>();
 
+    Resources r = Resources.getSystem();
+    float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, r.getDisplayMetrics());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +136,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void LoadMostView(final Activity contextParent){
-        firebaseDatabase.getReference("/recipes/all/").orderByChild("view").limitToLast(6).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseDatabase.getReference("/recipes/all/").orderByChild("view").limitToLast(9).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -223,8 +228,8 @@ public class MainActivity extends AppCompatActivity
             //Hàm được được hiện tiếp sau hàm onPreExecute()
             //Hàm này thực hiện các tác vụ chạy ngầm
             //Tuyệt đối k vẽ giao diện trong hàm này
-            for (int i = 0; i <= 2; i++) {
-                SystemClock.sleep(200);
+            for (int i = 0; i <= 1; i++) {
+                SystemClock.sleep(100);
                 //khi gọi hàm này thì onProgressUpdate sẽ thực thi
                 publishProgress(i);
             }
@@ -242,16 +247,7 @@ public class MainActivity extends AppCompatActivity
 //                viewPager = (ViewPager) findViewById(R.id.view_paper);
 //                viewPager.setAdapter(slideAdapter);
 //            }
-            if(number == 0) {
-                LoadHotRecipe();
-            }
-            if(number == 1){
-                LoadMostView(contextParent);
-//                gv = (GridView) contextParent.findViewById(R.id.gridView);
-//                CustomApdater adapter = new CustomApdater(contextParent, FoodName, Images);
-//                gv.setAdapter(adapter);
-            }
-            if(number == 2){
+            if(number == 0){
                 TabHost host = (TabHost)findViewById(R.id.tabHost);
                 host.setup();
 
@@ -304,6 +300,9 @@ public class MainActivity extends AppCompatActivity
                         GetTimKiemFragment();
                     }
                 });
+
+                LoadMostView(contextParent);
+                LoadHotRecipe();
 
             }
         }
@@ -369,9 +368,6 @@ public class MainActivity extends AppCompatActivity
             GetIndexFragment();
             HanderIndex();
 
-
-        } else if (id == R.id.nav_video) {
-            GetVideoFragment();
 
         } else if (id == R.id.nav_search) {
             GetTimKiemFragment();

@@ -137,6 +137,7 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         loadComment();
         btnSend = (ImageView) findViewById(R.id.send);
         editComment = (EditText) findViewById(R.id.edittextcomment);
+        editComment.setSelected(false);
 
         btnSend.setOnClickListener(this);
     }

@@ -59,7 +59,6 @@ public class SlideAdapter extends PagerAdapter{
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Slide so : " + position, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, FoodDetail.class);
                 i.putExtra("recipe", recipes.get(position));
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

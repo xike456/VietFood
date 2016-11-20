@@ -14,14 +14,15 @@
         android:textColor="@color/colorPrimary"
         android:id="@+id/textView" />
 
-    <GridView
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="330dp"
-        android:id="@+id/gridView"
-        android:numColumns="3"
-        android:columnWidth="120dp"
-        android:horizontalSpacing="10dp"
+        android:layout_height="430dp"
         android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:rowCount="2"
+        android:columnWidth="60dp"
+        android:stretchMode="columnWidth"
         android:gravity="center"
         />
 </LinearLayout>
