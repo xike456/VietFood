@@ -17,6 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
     private EditText editEmail;
@@ -49,6 +54,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     MainActivity.user.name = user.getEmail().toString();
+                    MainActivity.user.login = true;
+                    MainActivity.user.id = user.getUid();
                     // User is signed in
                     startMainActivity();
                     Log.d("Login", "onAuthStateChanged:signed_in:" + user.getUid());
@@ -89,7 +96,21 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                         }
 
                         if(task.isSuccessful()){
-                            startMainActivity();
+                            DatabaseReference userBookmark = FirebaseDatabase.getInstance().getReference("users/" + firebaseAuth.getCurrentUser().getUid());
+                            userBookmark.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot s: dataSnapshot.getChildren()) {
+                                        MainActivity.user.bookmarks.add((String) s.getValue());
+                                    }
+                                    startMainActivity();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                         }
                     }
                 });

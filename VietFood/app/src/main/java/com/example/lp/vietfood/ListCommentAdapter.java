@@ -13,42 +13,31 @@ package com.example.lp.vietfood;
 
         import java.util.List;
 
-public class ListCommentAdapter extends BaseAdapter {
+public class ListCommentAdapter extends ArrayAdapter<Comment> {
 
     private final Activity context;
     private final List<Comment> listComment;
-    public ListCommentAdapter(Activity context,
+    int layoutId;
+
+    public ListCommentAdapter(Activity context, int layoutId,
                               List<Comment> listComment) {
+        super(context, R.layout.itemcomment, listComment);
         this.listComment = listComment;
-        //super(context, R.layout.itemcomment,);
+        this.layoutId = layoutId;
         this.context = context;
-    }
-
-    @Override
-    public int getCount() {
-        return 0;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView= inflater.inflate(R.layout.itemcomment, null, true);
-        TextView user = (TextView) rowView.findViewById(R.id.username);
-        TextView cmt = (TextView) rowView.findViewById(R.id.comment) ;
+        view=inflater.inflate(layoutId, null);
+
+        TextView user = (TextView) view.findViewById(R.id.username);
+        TextView cmt = (TextView) view.findViewById(R.id.comment) ;
 
         user.setText(listComment.get(position).email);
-        cmt.setText(listComment.get(0).comment);
+        cmt.setText(listComment.get(position).comment);
 
-        return rowView;
+        return view;
     }
 }

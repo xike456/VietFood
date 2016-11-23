@@ -47,7 +47,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    //aSYNTASK
+
     public static User user = new User();
 
     MyAsyncTask myAsyncTask;

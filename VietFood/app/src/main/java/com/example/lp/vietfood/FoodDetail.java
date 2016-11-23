@@ -5,6 +5,7 @@ import android.support.v4.media.MediaBrowserCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +37,8 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
     Recipe k;
     ListCommentAdapter commentAdapter;
     ListView commentsLv;
-    List<Comment> commentList;
+    List<Comment> commentList = new ArrayList<>();
+    ImageButton btnBookmark;
 
     ListView list;
     ListView list2;
@@ -117,7 +119,16 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         TextView review = (TextView) findViewById(R.id.textReview);
         review.setText(k.review);
 
-        host.setCurrentTab(2);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        increaseView(k);
+        loadComment();
+        btnSend = (ImageView) findViewById(R.id.send);
+        editComment = (EditText) findViewById(R.id.edittextcomment);
+        editComment.setSelected(false);
+
+        btnSend.setOnClickListener(this);
+
+        host.setCurrentTab(0);
 
         ImageButton imageButton = (ImageButton) findViewById(R.id.imgButtonShare);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -132,14 +143,8 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
             }
         });
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        increaseView(k);
-        loadComment();
-        btnSend = (ImageView) findViewById(R.id.send);
-        editComment = (EditText) findViewById(R.id.edittextcomment);
-        editComment.setSelected(false);
-
-        btnSend.setOnClickListener(this);
+        btnBookmark = (ImageButton) findViewById(R.id.imgButtonBookmark);
+        btnBookmark.setOnClickListener(this);
     }
 
     @Override
@@ -147,11 +152,37 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         if(v == btnSend){
             if(editComment.getText().toString()!=""){
                 Comment(k, editComment.getText().toString());
+                editComment.setText("");
             }
             else            {
                 Toast.makeText(FoodDetail.this, "commend fail",
                         Toast.LENGTH_SHORT).show();
             }
+        }
+
+        if(v == btnBookmark){
+            Bookmark(k);
+        }
+    }
+
+    public void Bookmark(Recipe k) {
+        if (MainActivity.user.login) {
+            DatabaseReference user = firebaseDatabase.getReference("users/" + MainActivity.user.id + "/bookmark");
+
+            for (String s : MainActivity.user.bookmarks) {
+                if(s == (k.path + k.id)){
+                    Toast.makeText(FoodDetail.this, "Unbookmarked",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            user.push().setValue(k.path + k.id);
+            Toast.makeText(FoodDetail.this, "Bookmarked",
+                    Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(FoodDetail.this, "Login to bookmark",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -179,6 +210,7 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         comments.put("comment", listComment);
         commentList.add(c);
         ((BaseAdapter)commentsLv.getAdapter()).notifyDataSetChanged();
+        commentsLv.setSelection(commentsLv.getAdapter().getCount() -1);
         return comments;
     }
 
@@ -201,9 +233,10 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
                     Comment a = (Comment) dt.getValue(Comment.class);
                     commentList.add(a);
                 }
-                commentAdapter = new ListCommentAdapter(FoodDetail.this, commentList);
+                commentAdapter = new ListCommentAdapter(FoodDetail.this, R.layout.itemcomment, commentList);
                 commentsLv = (ListView) findViewById(R.id.listComment);
                 commentsLv.setAdapter(commentAdapter);
+                commentsLv.setSelection(commentsLv.getAdapter().getCount()-1);
             }
 
             @Override
