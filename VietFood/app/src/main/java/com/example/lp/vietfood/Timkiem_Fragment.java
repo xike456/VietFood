@@ -33,7 +33,8 @@ public class Timkiem_Fragment extends Fragment {
     List<String> bookmark = new ArrayList<>();
     List<String> data = new ArrayList<>();
 
-    ArrayAdapter<String> adapter;
+    //ArrayAdapter<String> adapter;
+    ListRecipeAdapter adapter;
 
     List<Recipe> recipes = new ArrayList<Recipe>();
     View myView;
@@ -48,7 +49,8 @@ public class Timkiem_Fragment extends Fragment {
         data.add("/recipes/all/8");
         data.add("/recipes/all/9");
         data.add("/recipes/all/10");
-        adapter=new ArrayAdapter<String>(myView.getContext(), android.R.layout.simple_list_item_1, bookmark);
+        //adapter=new ArrayAdapter<String>(myView.getContext(), android.R.layout.simple_list_item_1, bookmark);
+        adapter = new ListRecipeAdapter(myView.getContext(), R.layout.item_recipe, recipes);
         lv.setAdapter(adapter);
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
