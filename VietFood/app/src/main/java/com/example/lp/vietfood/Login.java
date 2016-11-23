@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class Login extends AppCompatActivity implements View.OnClickListener{
     private EditText editEmail;
     private EditText editPass;
@@ -56,8 +58,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                     MainActivity.user.name = user.getEmail().toString();
                     MainActivity.user.login = true;
                     MainActivity.user.id = user.getUid();
-                    // User is signed in
-                    startMainActivity();
+                    DatabaseReference userBookmark = FirebaseDatabase.getInstance().getReference("users/" + firebaseAuth.getCurrentUser().getUid()+ "/bookmark");
+                    userBookmark.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            MainActivity.user.bookmarks = new ArrayList<String>();
+                            for (DataSnapshot s: dataSnapshot.getChildren()) {
+                                MainActivity.user.bookmarks.add(s.getValue(String.class));
+                            }
+                            startMainActivity();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     Log.d("Login", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -96,12 +112,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                         }
 
                         if(task.isSuccessful()){
-                            DatabaseReference userBookmark = FirebaseDatabase.getInstance().getReference("users/" + firebaseAuth.getCurrentUser().getUid());
+                            MainActivity.user.bookmarks = new ArrayList<String>();
+                            DatabaseReference userBookmark = FirebaseDatabase.getInstance().getReference("users/" + firebaseAuth.getCurrentUser().getUid()+ "/bookmark");
                             userBookmark.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     for (DataSnapshot s: dataSnapshot.getChildren()) {
-                                        MainActivity.user.bookmarks.add((String) s.getValue());
+                                        MainActivity.user.bookmarks.add(s.getValue(String.class));
                                     }
                                     startMainActivity();
                                 }

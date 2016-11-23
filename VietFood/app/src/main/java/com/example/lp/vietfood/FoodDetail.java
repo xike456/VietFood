@@ -168,15 +168,16 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
     public void Bookmark(Recipe k) {
         if (MainActivity.user.login) {
             DatabaseReference user = firebaseDatabase.getReference("users/" + MainActivity.user.id + "/bookmark");
-
+            String path = k.path + k.id;
             for (String s : MainActivity.user.bookmarks) {
-                if(s == (k.path + k.id)){
+                if(s.equals(path)){
                     Toast.makeText(FoodDetail.this, "Unbookmarked",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
             user.push().setValue(k.path + k.id);
+            MainActivity.user.bookmarks.add(k.path + k.id);
             Toast.makeText(FoodDetail.this, "Bookmarked",
                     Toast.LENGTH_SHORT).show();
 

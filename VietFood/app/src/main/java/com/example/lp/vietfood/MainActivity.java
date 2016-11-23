@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity
     Resources r = Resources.getSystem();
     float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, r.getDisplayMetrics());
 
+    ProgressDialog hotDialog;
+    ProgressDialog mostviewDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +115,9 @@ public class MainActivity extends AppCompatActivity
 
     //Load data for slide view
     public void LoadHotRecipe(){
+        hotDialog = new ProgressDialog(this);
+        hotDialog.setMessage("Loading...");
+        hotDialog.show();
         firebaseDatabase.getReference("/recipes/hot/").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity
                 slideAdapter = new SlideAdapter(getApplicationContext(), hotRecipes);
                 viewPager = (ViewPager) findViewById(R.id.view_paper);
                 viewPager.setAdapter(slideAdapter);
+                hotDialog.hide();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -136,6 +142,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void LoadMostView(final Activity contextParent){
+        mostviewDialog = new ProgressDialog(this);
+        mostviewDialog.setMessage("Loading...");
+        mostviewDialog.show();
         firebaseDatabase.getReference("/recipes/all/").orderByChild("view").limitToLast(9).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -150,6 +159,7 @@ public class MainActivity extends AppCompatActivity
                 gv = (GridView) contextParent.findViewById(R.id.gridView);
                 CustomApdater adapter = new CustomApdater(contextParent, mostViewRecipes);
                 gv.setAdapter(adapter);
+                mostviewDialog.hide();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

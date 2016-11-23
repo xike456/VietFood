@@ -1,5 +1,6 @@
 package com.example.lp.vietfood;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,8 @@ public class Timkiem_Fragment extends Fragment {
     List<String> data = new ArrayList<>();
 
     ArrayAdapter<String> adapter;
+
+    List<Recipe> recipes = new ArrayList<Recipe>();
     View myView;
     @Nullable
     @Override
@@ -44,13 +47,9 @@ public class Timkiem_Fragment extends Fragment {
 
         data.add("/recipes/all/8");
         data.add("/recipes/all/9");
-
-
-        adapter=new ArrayAdapter<String>(myView.getContext(), android.R.layout.simple_list_item_1, data);
-        lv.setAdapter(adapter);
-
         data.add("/recipes/all/10");
-        adapter.notifyDataSetChanged();
+        adapter=new ArrayAdapter<String>(myView.getContext(), android.R.layout.simple_list_item_1, bookmark);
+        lv.setAdapter(adapter);
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -64,7 +63,8 @@ public class Timkiem_Fragment extends Fragment {
                 return false;
             }
         });
-        LoadBm(data);
+        //LoadBm(MainActivity.user.bookmarks);
+        LoadRecipe();
         return myView;
     }
 
@@ -84,5 +84,31 @@ public class Timkiem_Fragment extends Fragment {
                 }
             });
         }
+    }
+
+    public void LoadRecipe() {
+        final ProgressDialog progress = new ProgressDialog(getContext());
+        progress.setMessage("Loading...");
+        progress.show();
+        FirebaseDatabase.getInstance().getReference("recipes/all").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dt: dataSnapshot.getChildren()) {
+                    Recipe a = (Recipe) dt.getValue(Recipe.class);
+                    String k = dt.getKey();
+                    a.id = k;
+                    a.path = "/recipes/all/";
+                    recipes.add(a);
+                    bookmark.add(a.recipeName);
+                    progress.hide();
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                progress.hide();
+            }
+        });
     }
 }
