@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.design.widget.FloatingActionButton;
+
 
 import com.example.lp.vietfood.Helper.RecipeHelper;
 import com.google.firebase.database.DataSnapshot;
@@ -28,8 +30,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 
-public class FoodDetail extends AppCompatActivity  implements View.OnClickListener{
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+
+public class FoodDetail extends AppCompatActivity  implements View.OnClickListener, OnInitListener{
+
+    private TextToSpeech myTTS;
+    private int MY_DATA_CHECK_CODE = 0;
 
     FirebaseDatabase firebaseDatabase;
     ImageView btnSend;
@@ -39,7 +48,7 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
     ListView commentsLv;
     List<Comment> commentList = new ArrayList<>();
     ImageButton btnBookmark;
-
+    FloatingActionButton speakButton;
     ListView list;
     ListView list2;
     String[] tenNguyenLieu = {
@@ -145,6 +154,15 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
 
         btnBookmark = (ImageButton) findViewById(R.id.imgButtonBookmark);
         btnBookmark.setOnClickListener(this);
+
+        speakButton = (FloatingActionButton) findViewById(R.id.voiceStepCook);
+        //listen for clicks
+        speakButton.setOnClickListener(this);
+
+        //check for TTS data
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
     }
 
     @Override
@@ -163,6 +181,23 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         if(v == btnBookmark){
             Bookmark(k);
         }
+
+        if (v == speakButton){
+            //get the text entered
+            String[] enteredText = RecipeHelper.getStepFromRecipe(k);
+
+            int count = 0;
+            for (String temp : enteredText) {
+                count++;
+                speakWords("Bước " + count + ": " + temp);
+            }
+        }
+    }
+
+    private void speakWords(String speech) {
+
+        //speak straight away
+        myTTS.speak(speech, TextToSpeech.QUEUE_ADD, null);
     }
 
     public void Bookmark(Recipe k) {
@@ -245,5 +280,34 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
 
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                //the user has the necessary data - create the TTS
+                myTTS = new TextToSpeech(this, this);
+            }
+            else {
+                //no data - install it now
+                Intent installTTSIntent = new Intent();
+                installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installTTSIntent);
+            }
+        }
+    }
+
+    public void onInit(int initStatus) {
+
+        Locale locale = new Locale("vi");
+        //check for successful instantiation
+        if (initStatus == TextToSpeech.SUCCESS) {
+            if(myTTS.isLanguageAvailable(locale)==TextToSpeech.LANG_AVAILABLE)
+                myTTS.setLanguage(locale);
+        }
+        else if (initStatus == TextToSpeech.ERROR) {
+            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+        }
     }
 }
