@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity
         //Index Fragment When Open App
 
         firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getInstance().setPersistenceEnabled(true);
         GetIndexFragment();
 
 
