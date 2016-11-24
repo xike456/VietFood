@@ -176,10 +176,10 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.fragment_container, index_fragment);
         fragmentTransaction.commit();
     }
-    public void GetVideoFragment(){
-        Video_Fragment video_fragment = new Video_Fragment();
+    public void GetBookmarksFragment(){
+        Bookmarks_Fragment bookmarks_fragment = new Bookmarks_Fragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, video_fragment);
+        fragmentTransaction.replace(R.id.fragment_container, bookmarks_fragment);
         fragmentTransaction.commit();
     }
     public void GetTimKiemFragment(){
@@ -195,10 +195,8 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
     public void GetAboutMeFragment(){
-        Aboutme_Fragment aboutme_fragment = new Aboutme_Fragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, aboutme_fragment);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(this, ActivityAboutme.class);
+        startActivity(intent);
     }
 
     public void HanderIndex(){
@@ -378,8 +376,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_index) {
             GetIndexFragment();
             HanderIndex();
-
-
         } else if (id == R.id.nav_search) {
             GetTimKiemFragment();
 
@@ -388,8 +384,18 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
+        }
+        else if (id == R.id.nav_bookmarks) {
+            GetBookmarksFragment();
+        }
+        else if (id == R.id.nav_login) {
 
         }
+        else if (id == R.id.nav_logout) {
+
+        }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
