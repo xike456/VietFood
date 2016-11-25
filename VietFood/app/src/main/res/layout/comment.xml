@@ -3,16 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <ListView
-        android:layout_above="@+id/commentBox"
         android:layout_width="match_parent"
         android:id="@+id/listComment"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/commentBox">
     </ListView>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/commentBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -20,25 +20,30 @@
         android:layout_alignParentRight="true">
 
         <EditText
-            android:gravity="center_vertical"
+            android:gravity="bottom"
             android:textAlignment="gravity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
             android:id="@+id/edittextcomment"
             android:background="@null"
             android:paddingLeft="16dp"
             android:textSize="16sp"
-            android:maxLines="4"
+            android:maxLines="1"
+            android:hint="Add a comment here"
             android:inputType="textMultiLine"
-            android:hint="Add a comment here" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/send"
-            android:src="@drawable/sent"/>
+            android:src="@drawable/sent"
+            android:layout_alignTop="@+id/edittextcomment"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
