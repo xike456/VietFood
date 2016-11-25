@@ -1,14 +1,19 @@
 package com.example.lp.vietfood;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -37,50 +42,46 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 
 public class FoodDetail extends AppCompatActivity  implements View.OnClickListener, OnInitListener{
 
+    // Text to speech value
     private TextToSpeech myTTS;
     private int MY_DATA_CHECK_CODE = 0;
+    // !End Text to speech value
 
     FirebaseDatabase firebaseDatabase;
     ImageView btnSend;
+
+    ImageButton btnPlay, btnPause, btnNext, btnBack, btnReplay;
+
     EditText editComment;
     Recipe k;
     ListCommentAdapter commentAdapter;
     ListView commentsLv;
     List<Comment> commentList = new ArrayList<>();
     ImageButton btnBookmark;
+
     FloatingActionButton speakButton;
+    FloatingActionButton fab1;
+    FloatingActionButton fab2;
+    FloatingActionButton fab3;
+    FloatingActionButton fab4;
+
+    private boolean FAB_Status = false;
+    private boolean Voice_Status = false;
+    private int countStep = 0;
+
+    //Animations
+    Animation show_fab_1;
+    Animation hide_fab_1;
+    Animation show_fab_2;
+    Animation hide_fab_2;
+    Animation show_fab_3;
+    Animation hide_fab_3;
+    Animation show_fab_4;
+    Animation hide_fab_4;
     ListView list;
     ListView list2;
-    String[] tenNguyenLieu = {
-            "Thịt Gà",
-            "Trứng",
-            "Dầu Ăn",
-            "Mắm",
-            "Tỏi",
-            "Ớt",
-            "Đường"
-    } ;
-    String[] soluongNguyenLieu = {
-            "1 kg",
-            "2 quả",
-            "3 thìa",
-            "2 thìa",
-            "2 củ",
-            "3 quả",
-            "2 thìa"
-    } ;
 
-    String[] step = {
-            "Thịt ba chỉ rửa sạch, để ráo rồi thái miếng vừa ăn.\n" +
-                    "Hành tây bóc vỏ, thái miếng nhỏ.\n" +
-                    "Gừng, tỏi rửa sạch, đập dập rồi băm nhỏ. Ớt xanh thái miếng vát.",
-            "Dùng một chảo lớn, cho tất cả các nguyên liệu vừa sơ chế vào cùng nhau.\n" +
-                    "Sau đó thêm tương ớt, bột ớt, đường trắng, nước tương, tiêu xay và dầu mè vào.\n",
-            "Đảo chảo thịt cùng các nguyên liệu trên bếp, điều chỉnh cho lửa to, đảo đều tay để các nguyên liệu trộn đều vào nhau.\n" +
-                    "Đảo liên tục trong khoảng 10 phút, khi các nguyên liệu đã chín hết, thịt săn lại thì tắt bếp.\n" +
-                    "Múc thịt ra đĩa, có thể rắc thêm chút vừng rang cho thơm, đúng điệu Hàn Quốc và dùng kèm cùng cơm nóng.\n" +
-                    "Món thịt xào hành tây kiểu Hàn có nhiều gia vị khác hẳn so với món thịt xào thông thường, đem đến cho chúng ta cảm giác lạ miệng, thơm ngon. Chúc các bạn thành công với món thịt xào hành tây kiểu Hàn nhé!"
-    } ;
+    ///
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,8 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         final TextView url = (TextView) findViewById(R.id.Url);
         url.setText( k.recipeName + '\n' + "Viet Food" + '\n'+ '\n'+ k.demoImage);
         UrlImageViewHelper.setUrlDrawable(imgView, k.demoImage);
+
+
         txtView.setText(k.recipeName);
 
         TabHost.TabSpec spec = host.newTabSpec("Nguyên Liệu");
@@ -155,15 +158,37 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         btnBookmark = (ImageButton) findViewById(R.id.imgButtonBookmark);
         btnBookmark.setOnClickListener(this);
 
-        speakButton = (FloatingActionButton) findViewById(R.id.voiceStepCook);
-        //listen for clicks
-        speakButton.setOnClickListener(this);
 
-        //check for TTS data
+        //Text to speech Voice
+        speakButton = (FloatingActionButton) findViewById(R.id.voiceStepCook);
+        fab1 = (FloatingActionButton) findViewById(R.id.fab_1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab_2);
+        fab3 = (FloatingActionButton) findViewById(R.id.fab_3);
+        fab4 = (FloatingActionButton) findViewById(R.id.fab_4);
+
+        speakButton.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
+        fab4.setOnClickListener(this);
+
+        //Animations
+        show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
+        hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
+        show_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_show);
+        hide_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_hide);
+        show_fab_3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_show);
+        hide_fab_3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_hide);
+        show_fab_4 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab4_show);
+        hide_fab_4 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab4_hide);
+
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
+        //!End Text to speech Voice
+
     }
+
 
     @Override
     public void onClick(View v) {
@@ -182,20 +207,151 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
             Bookmark(k);
         }
 
+        //Text to speech Voice Button Click
+
         if (v == speakButton){
+
+            if (FAB_Status == false) {
+                //Display FAB menu
+                expandFAB();
+                FAB_Status = true;
+            } else {
+                //Close FAB menu
+                hideFAB();
+                FAB_Status = false;
+
+                myTTS.stop();
+                Voice_Status = false;
+            }
             //get the text entered
-            String[] enteredText = RecipeHelper.getStepFromRecipe(k);
+           /* String[] enteredText = RecipeHelper.getStepFromRecipe(k);
 
             int count = 0;
             for (String temp : enteredText) {
                 count++;
                 speakWords("Bước " + count + ": " + temp);
+            }*/
+
+
+        }
+        String[] enteredText = RecipeHelper.getStepFromRecipe(k);
+
+        if (v==fab1)        {
+
+            if (Voice_Status == false)        {
+                Voice_Status = true;
+                int count = 0;
+            for (String temp : enteredText) {
+                count++;
+                speakWords("Bước " + count + ": " + temp);
+                fab1.setImageResource(R.drawable.ic_stop);
+            }
+            }
+            else
+            {
+                myTTS.stop();
+                Voice_Status = false;
+                fab1.setImageResource(R.drawable.ic_play);
             }
         }
+
+        if (v==fab2){
+            if (countStep>1) {
+                countStep--;
+                String temp = "Bước " + countStep + ": " + enteredText[countStep-1];
+                myTTS.speak(temp, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        }
+
+        if (v==fab3){
+            if (countStep + 1 <= enteredText.length) {
+                countStep++;
+                String temp = "Bước " + countStep + ": " + enteredText[countStep - 1];
+                myTTS.speak(temp, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        }
+
+        if (v==fab4){
+            if (countStep == 0) return;
+            String temp = "Bước " + countStep + ": " + enteredText[countStep-1];
+            myTTS.speak(temp, TextToSpeech.QUEUE_FLUSH, null);
+        }
+
+        //!End Text to speech Voice
     }
 
-    private void speakWords(String speech) {
+    private void expandFAB() {
 
+        //Floating Action Button 1
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fab1.getLayoutParams();
+        layoutParams.rightMargin += (int) (fab1.getWidth() * 2.5);
+        layoutParams.bottomMargin += (int) (fab1.getHeight() * 0.01);
+        fab1.setLayoutParams(layoutParams);
+        fab1.startAnimation(show_fab_1);
+        fab1.setClickable(true);
+
+        //Floating Action Button 2
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) fab2.getLayoutParams();
+        layoutParams2.rightMargin += (int) (fab2.getWidth() * 2.2);
+        layoutParams2.bottomMargin += (int) (fab2.getHeight() * 1.1);
+        fab2.setLayoutParams(layoutParams2);
+        fab2.startAnimation(show_fab_2);
+        fab2.setClickable(true);
+
+        //Floating Action Button 3
+        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) fab3.getLayoutParams();
+        layoutParams3.rightMargin += (int) (fab3.getWidth() * 1.2);
+        layoutParams3.bottomMargin += (int) (fab3.getHeight() * 1.8);
+        fab3.setLayoutParams(layoutParams3);
+        fab3.startAnimation(show_fab_3);
+        fab3.setClickable(true);
+
+        //Floating Action Button 4
+        FrameLayout.LayoutParams layoutParams4 = (FrameLayout.LayoutParams) fab4.getLayoutParams();
+        layoutParams4.rightMargin += (int) (fab4.getWidth() * 0.01);
+        layoutParams4.bottomMargin += (int) (fab4.getHeight() * 2.2);
+        fab4.setLayoutParams(layoutParams4);
+        fab4.startAnimation(show_fab_4);
+        fab4.setClickable(true);
+    }
+
+    private void hideFAB() {
+
+        //Floating Action Button 1
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) fab1.getLayoutParams();
+        layoutParams.rightMargin -= (int) (fab1.getWidth() * 2.5);
+        layoutParams.bottomMargin -= (int) (fab1.getHeight() * 0.01);
+        fab1.setLayoutParams(layoutParams);
+        fab1.startAnimation(hide_fab_1);
+        fab1.setClickable(false);
+
+        //Floating Action Button 2
+        FrameLayout.LayoutParams layoutParams2 = (FrameLayout.LayoutParams) fab2.getLayoutParams();
+        layoutParams2.rightMargin -= (int) (fab2.getWidth() * 2.2);
+        layoutParams2.bottomMargin -= (int) (fab2.getHeight() * 1.1);
+        fab2.setLayoutParams(layoutParams2);
+        fab2.startAnimation(hide_fab_2);
+        fab2.setClickable(false);
+
+        //Floating Action Button 3
+        FrameLayout.LayoutParams layoutParams3 = (FrameLayout.LayoutParams) fab3.getLayoutParams();
+        layoutParams3.rightMargin -= (int) (fab3.getWidth() * 1.2);
+        layoutParams3.bottomMargin -= (int) (fab3.getHeight() * 1.8);
+        fab3.setLayoutParams(layoutParams3);
+        fab3.startAnimation(hide_fab_3);
+        fab3.setClickable(false);
+
+        //Floating Action Button 4
+        FrameLayout.LayoutParams layoutParams4 = (FrameLayout.LayoutParams) fab4.getLayoutParams();
+        layoutParams4.rightMargin -= (int) (fab4.getWidth() * 0.01);
+        layoutParams4.bottomMargin -= (int) (fab4.getHeight() * 2.2);
+        fab4.setLayoutParams(layoutParams4);
+        fab4.startAnimation(hide_fab_4);
+        fab4.setClickable(false);
+    }
+
+    //Text to speech Voice play queue
+    private void speakWords(String speech) {
         //speak straight away
         myTTS.speak(speech, TextToSpeech.QUEUE_ADD, null);
     }

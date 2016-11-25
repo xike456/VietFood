@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -85,20 +85,12 @@
                     android:layout_margin="15dp"
                     android:orientation="vertical">
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:clickable="true"
-                        app:fabSize="normal"
-                        app:srcCompat="@drawable/video"
-                        android:id="@+id/voiceStepCook" />
-
                     <ListView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/listViewtabFoodDetail2"></ListView>
+
+                    <include layout="@layout/fab_layout" />
 
                 </RelativeLayout >
 
@@ -116,4 +108,6 @@
             android:layout_height="0dp"
             android:id="@+id/Url"/>
     </RelativeLayout>
-</LinearLayout>
+
+
+</RelativeLayout>
