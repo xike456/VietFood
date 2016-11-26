@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.view.LayoutInflater;
-=======
 import android.view.KeyEvent;
->>>>>>> origin/master
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -189,10 +186,7 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, MY_DATA_CHECK_CODE);
-<<<<<<< HEAD
         //!End Text to speech Voice
-
-=======
 
         EditText editText = (EditText)findViewById(R.id.edittextcomment);
         editText.setOnKeyListener(new View.OnKeyListener() {
@@ -210,7 +204,6 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
                 return false;
             }
         });
->>>>>>> origin/master
     }
 
 
