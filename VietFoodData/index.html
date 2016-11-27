@@ -106,7 +106,9 @@
 							<div class="form-group" >
 								<label>Các bước thực hiện</label>
 								<div id="frmStep">
+									<label>- Bước 1</label>
 									<textarea type="text" class="form-control" ng-model="txt_step[0]" placeholder="Bước 1" ></textarea>
+									<input type="text"  class="form-control" ng-model="txt_stepImg[0]" placeholder="Link ảnh bước 1" >
 								</div>
 								<button class="btn btn-warning btn-sm" ng-click="AddStep()">Thêm Bước Làm</button>
 								<button class="btn btn-warning btn-sm" ng-click="DeleteStep()">Xóa Bước Làm</button>
@@ -115,9 +117,12 @@
 
                             <div class="form-group">
 								<label>Thời gian hoàn thành</label>
-								<input type="number" class="form-control" ng-model="txt_time" placeholder="Nhập thời gian nấu món ăn (phút)" >
+								<input type="number" class="form-control" ng-model="txt_time" placeholder="Nhập thời gian nấu món ăn (phút)">
 							</div>
-
+							<div class="form-group">
+								<label>Lượt view</label>
+								<input type="number" class="form-control" ng-model="txt_view" placeholder="0" value="0" disabled>
+							</div>
                             <div class="form-group tableCenter">
                                 <button class="btn btn-success" ng-click="AddRecipe()">
                                     <!--<span class="glyphicon glyphicon-save"></span>-->
@@ -138,7 +143,6 @@
 							<!--<th>ID</th>-->
 							<th>id</th>
 							<th>recipeName</th>
-
 							<th>category</th>
 							<th>demoImage</th>
 							<th>difficulty</th>
@@ -146,6 +150,7 @@
 							<th>review</th>
 							<th>steps</th>
 							<th>time</th>
+							<th>view</th>
 						</tr>
 						<tr ng-repeat="recipe in recipes">
 							<!--<td class="tableCenter">{{ x.AirplaneID }}</td>-->
@@ -162,10 +167,18 @@
 							<td class="">{{ recipe.review }} </td>
 							<td class="" >
 								<ol >
-									<li ng-repeat="step in recipe.steps">{{ step.step }}</li>
+									<li ng-repeat="step in recipe.steps">
+										{{ step.step }}<br/>
+										<img src="{{ step.image }}" width="100" height="100">
+
+									</li>
+
 								</ol>
 							</td>
+
 							<td class="tableCenter">{{ recipe.time }}</td>
+							<td class="tableCenter">{{ recipe.view }}</td>
+
 						</tr>
 					</table>
 			</div>
@@ -210,11 +223,10 @@
 	<script>
 		// Initialize Firebase
 		var config = {
-			apiKey: "AIzaSyArGGBmI_bkSBRdIPutB5lEBBRNlViy9eI",
-			authDomain: "cooking-app-2f6b9.firebaseapp.com",
-			databaseURL: "https://cooking-app-2f6b9.firebaseio.com",
-			storageBucket: "cooking-app-2f6b9.appspot.com",
-			messagingSenderId: "739133539997"
+			apiKey: " AIzaSyBF_R-pObW_rCp1pX04sWIY3ExkfBbi1gc",
+			authDomain: "gothic-province-135023.firebaseapp.com",
+			databaseURL: "https://gothic-province-135023.firebaseio.com",
+			storageBucket: "gothic-province-135023.appspot.com",
 		};
 		firebase.initializeApp(config);
 	</script>

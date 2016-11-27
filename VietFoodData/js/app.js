@@ -27,8 +27,11 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	$scope.txt_review = '';
 	$scope.txt_step = [];
 	$scope.txt_step2 = [];
+    $scope.txt_stepImg = [];
+    $scope.txt_stepImg2 = [];
 
-	$scope.txt_time = '';
+    $scope.txt_time = '';
+    $scope.txt_view = '';
 
 	$scope.CountStep = 0;
 	$scope.CountGiavi = 0;
@@ -88,15 +91,20 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	$scope.AddStep = function () {
 		$scope.CountStep++;
 		var fStep = angular.element( document.querySelector('#frmStep'));
-		var input = angular.element('<textarea type="text" id="idStep'+ $scope.CountStep +'" class="form-control" ng-model="txt_step['+ $scope.CountStep +']" placeholder="Bước '+ ($scope.CountStep + 1) +'" ></textarea>');
+		var input = angular.element('<label id="idStepLabel'+ $scope.CountStep +'">- Bước '+ ($scope.CountStep + 1) +'</label><textarea type="text" id="idStep'+ $scope.CountStep +'" class="form-control" ng-model="txt_step['+ $scope.CountStep +']" placeholder="Bước '+ ($scope.CountStep + 1) +'" ></textarea> <input type="text" id="idStepImg'+ $scope.CountStep +'" class="form-control" ng-model="txt_stepImg['+ $scope.CountStep +']" placeholder="Link ảnh bước '+ ($scope.CountStep + 1) +'" >');
 		var compile = $compile(input)($scope);
 		fStep.append(input);
 	};
 
 	$scope.DeleteStep = function () {
 		if ($scope.CountStep==0) return;
-		var fStep = angular.element( document.querySelector('#idStep'+ $scope.CountStep +''));
+        var fStepLabel = angular.element( document.querySelector('#idStepLabel'+ $scope.CountStep +''));
+        var fStep = angular.element( document.querySelector('#idStep'+ $scope.CountStep +''));
+        var fStepImg = angular.element( document.querySelector('#idStepImg'+ $scope.CountStep +''));
+
 		fStep.remove();
+        fStepImg.remove();
+        fStepLabel.remove();
 		$scope.CountStep--;
 	};
 
@@ -118,6 +126,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		for(var i = 0; i < $scope.txt_step.length;i++){
 			{
 				var temp2 = {
+                    image: $scope.txt_stepImg[i],
 					step: $scope.txt_step[i],
 				}
 				$scope.txt_step2.push(temp2);
@@ -132,7 +141,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			ingredients: $scope.txt_Giavi,
 			review: $scope.txt_review,
 			steps: $scope.txt_step2,
-			time: $scope.txt_time
+			time: $scope.txt_time,
+			view: $scope.txt_view
 		});
 		console.log($scope.txt_step);
 		console.log($scope.txt_ingredients);
