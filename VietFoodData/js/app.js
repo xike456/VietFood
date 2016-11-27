@@ -15,7 +15,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	$scope.divAddData = true;
 	$scope.divUpload = false;
 
-	$scope.txt_id = '';
+	$scope.txt_id = 0;
 	$scope.txt_recipeName = '';
 	$scope.txt_category = '';
 	$scope.txt_demoImage = '';
@@ -37,9 +37,33 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	$scope.CountStep = 0;
 	$scope.CountGiavi = 0;
 
+	$scope.resetAll = function () {
+        $scope.txt_id = 0;
+        $scope.txt_recipeName = '';
+        $scope.txt_category = '';
+        $scope.txt_demoImage = '';
+        $scope.txt_difficulty = '';
+
+        $scope.txt_Giavi = [];
+        $scope.txt_ingredients = [];
+        $scope.txt_ingredients2 = [];
+
+        $scope.txt_review = '';
+        $scope.txt_step = [];
+        $scope.txt_step2 = [];
+        $scope.txt_stepImg = [];
+        $scope.txt_stepImg2 = [];
+
+        $scope.txt_time = '';
+        $scope.txt_view = '';
+
+        $scope.CountStep = 0;
+        $scope.CountGiavi = 0;
+    }
+
 	$scope.showHome = function () {
 		$scope.hideAll();
-		$scope.divHome = true;
+		$scope.divHome = false;
 	};
 	//methods for showing/hiding divs
 	$scope.showAddData = function () {
@@ -132,9 +156,11 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 
     $scope.AutoGetRecipeID = function () {
         var tempID=0;
-        while ($scope.existID != true) {
+        $scope.checkRecipeID(tempID);
+        while ($scope.existID != false) {
             tempID++;
             $scope.checkRecipeID(tempID);
+           // if (tempID>20) return;
         };
         $scope.txt_id = tempID;
     }
@@ -170,11 +196,11 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		}
 
 		if ($scope.checkRecipeID($scope.txt_id) == true) {
-            alert("ID da ton tai");
+            alert("ID đã tồn tại. Vui lòng chọn ID khác!");
+
             return;
         }
-        else console.log("ID khong ton tai, tao du lieu!");
-
+        else console.log("!");
 
 
 		firebase.database().ref('recipes/all/'+$scope.txt_id).set({
@@ -189,11 +215,12 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			view: $scope.txt_view
 		});
 
+
 	};
 
     $scope.checkRecipeID = function (recipeID) {
         var refID = firebase.database().ref('recipes/all/' + recipeID );
-        refID.on('value', function(snapshot) {
+        refID.once('value', function(snapshot) {
             $scope.existID =(snapshot.val() !== null);
         });
 
