@@ -43,3 +43,13 @@ th {
 .form-control{
 	margin-top: 4px;
 }
+
+.progress.active .progress-bar {
+	-webkit-transition: none !important;
+	transition: none !important;
+}
+
+input#input{
+	margin-top: 4px;
+	margin-bottom: 4px;
+}

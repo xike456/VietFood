@@ -8,13 +8,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
 <script src="https://code.angularjs.org/1.5.8/angular-sanitize.js"></script>
 	<script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.js"></script>
-	<script src="js/toastr.min.js"></script>
-	<script src="js/app.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="js/app.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
 
-<link rel ="stylesheet" href ="css/bootstrap.min.css">
+	<link rel ="stylesheet" href ="css/bootstrap.min.css">
 <link rel ="stylesheet" href = "css/bootstrap-theme.min.css">
-	<link rel ="stylesheet" href = "css/toastr.min.css">
+	<link rel ="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 	<link rel ="stylesheet" href = "css/style.css">
 
 </head>
@@ -125,11 +126,9 @@
 								<input type="number" class="form-control" ng-model="txt_view" placeholder="0" value="0" disabled>
 							</div>
                             <div class="form-group tableCenter">
-                                <button class="btn btn-success" ng-click="AddRecipe()">
-                                    <!--<span class="glyphicon glyphicon-save"></span>-->
-                                    Tạo công thức
-                                </button>
-                            </div>
+                                <button class="btn btn-success" ng-click="AddRecipe()">Tạo công thức</button>
+								<button class="btn btn-success" ng-click="resetAll()">Reset</button>
+							</div>
 						</form>
                     </div>
                 </div>
@@ -190,9 +189,7 @@
 									<li ng-repeat="step in recipe.steps">
 										{{ step.step }}<br/>
 										<img src="{{ step.image }}" width="100" height="100">
-
 									</li>
-
 								</ol>
 							</td>
 
@@ -207,12 +204,28 @@
 		<div ng-show="divUpload">
 			<div class="row" style="width: 90%; margin-left: 5px;">
 				<div class="col-md-4">
-					<div>
+					<div class="form-group">
 						<h4>Upload File</h4>
-						<input type="file" id="input">
+						<label class="control-label">Select File</label>
+						<input id="input" type="file" class="file">
 						<button ng-click = "uploadFile()">upload me</button>
 					</div>
-				</div>
+
+					<div class="col-xs-12 col-sm-12 progress-container">
+						<div class="progress progress-striped active">
+							<div class="progress-bar progress-bar-success" style="width:0%"></div>
+						</div>
+					</div>
+
+					<!--<div class="container" style="margin-top:50px">-->
+						<!--<div class="input-group">-->
+							<!--<input type="text" id="txtTestInput" class="form-control"/>-->
+							<!--<span class="input-group-btn">-->
+				<!--<button id="btnCopy" class="btn btn-primary" ng-click="UploadCopyLink()">Copy me!</button>-->
+			<!--</span>-->
+						<!--</div>-->
+					<!--</div>-->
+
 				<div class="col-md-4" id="previewImg">
 
 				</div>

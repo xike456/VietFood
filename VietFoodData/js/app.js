@@ -1,5 +1,6 @@
 // Initialize Firebase
 
+
 var app = angular.module('VietFoodApp', ["firebase"]);
 app.controller('VietFoodController', function ($scope, $firebaseObject, $firebaseArray, $compile) {
 
@@ -8,6 +9,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	$scope.recipes = $firebaseArray(ref);
 	console.log($scope.recipes);
 	$scope.existID = false;
+
+
 
 	//Default Values
 	$scope.divHome = false;
@@ -38,27 +41,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	$scope.CountGiavi = 0;
 
 	$scope.resetAll = function () {
-        $scope.txt_id = 0;
-        $scope.txt_recipeName = '';
-        $scope.txt_category = '';
-        $scope.txt_demoImage = '';
-        $scope.txt_difficulty = '';
-
-        $scope.txt_Giavi = [];
-        $scope.txt_ingredients = [];
-        $scope.txt_ingredients2 = [];
-
-        $scope.txt_review = '';
-        $scope.txt_step = [];
-        $scope.txt_step2 = [];
-        $scope.txt_stepImg = [];
-        $scope.txt_stepImg2 = [];
-
-        $scope.txt_time = '';
-        $scope.txt_view = '';
-
-        $scope.CountStep = 0;
-        $scope.CountGiavi = 0;
+        window.location.reload();
     }
 
 	$scope.showHome = function () {
@@ -104,6 +87,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		fTenGV.append(inputTenGV);
 		fSoLuongGV.append(inputSoLuongGV);
         fPreGiavi.append(inputPreGiavi);
+
+        toastr.success('Thêm gia vị thành công!');
     };
 
 	$scope.DeleteGiaVi = function () {
@@ -123,6 +108,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
         fPreGiaviSoLuong.remove();
 
         $scope.CountGiavi--;
+        toastr.warning('Xóa gia vị thành công!');
 	};
 
 	$scope.AddStep = function () {
@@ -137,7 +123,9 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 
         fStep.append(input);
         fStep2.append(input2);
-	};
+        toastr.success('Thêm bước thực hiện thành công!');
+
+    };
 
 	$scope.DeleteStep = function () {
 		if ($scope.CountStep==0) return;
@@ -151,7 +139,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
         fStepLabel.remove();
         fPreStep.remove();
 		$scope.CountStep--;
-	};
+        toastr.warning('Xóa bước thực hiện thành công!');
+    };
 
 
     $scope.AutoGetRecipeID = function () {
@@ -160,16 +149,20 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
         while ($scope.existID != false) {
             tempID++;
             $scope.checkRecipeID(tempID);
-           // if (tempID>20) return;
+			if (tempID > 2000) return;
         };
         $scope.txt_id = tempID;
+        toastr.success('Get ID thành công. ID có thể dùng là:'+tempID);
     }
+
+
 
 	$scope.AddRecipe = function () {
 
         $scope.checkRecipeID($scope.txt_id);
         if ($scope.existID==true) {
-            alert("ID đã tồn tại. Vui lòng chọn lại!");
+            //alert("ID đã tồn tại. Vui lòng chọn lại!");
+            toastr.error('ID đã tồn tại, vui lòng chọn lại.');
             return;
         };
 
@@ -195,14 +188,6 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			}
 		}
 
-		if ($scope.checkRecipeID($scope.txt_id) == true) {
-            alert("ID đã tồn tại. Vui lòng chọn ID khác!");
-
-            return;
-        }
-        else console.log("!");
-
-
 		firebase.database().ref('recipes/all/'+$scope.txt_id).set({
 			recipeName: $scope.txt_recipeName,
 			category: $scope.txt_category,
@@ -215,8 +200,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			view: $scope.txt_view
 		});
 
-
-	};
+        toastr.success('THÊM CÔNG THỨC THÀNH CÔNG!');
+    };
 
     $scope.checkRecipeID = function (recipeID) {
         var refID = firebase.database().ref('recipes/all/' + recipeID );
@@ -229,20 +214,33 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	$scope.checkID = function(recipeID){
         $scope.checkRecipeID(recipeID);
         if ($scope.existID==true) {
-            alert("ID đã tồn tại. Vui lòng chọn lại!");
+          //  alert("ID đã tồn tại. Vui lòng chọn lại!");
+            toastr.error('ID đã tồn tại, vui lòng chọn lại.');
         }
         else
 		{
-			alert("ID có thể sử dụng.");
+            toastr.success('ID có thể sử dụng.');
 		}
     };
 
-
+ 	// $scope.UploadCopyLink = function () {
+    //     ZeroClipboard.config( { swfPath: "https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.swf" } );
+    //     var client = new ZeroClipboard($("#btnCopy"));
+    //
+    //     client.on("copy", function (event) {
+    //         var copiedValue = $('#txtTestInput').val();
+    //         var clipboard = event.clipboardData;
+    //         clipboard.setData("text/plain", copiedValue);
+    //         alert('The copied value is: ' + copiedValue);
+    //     });
+    // }
 
 	$scope.uploadFile = function(){
 
 		// Create a root reference
 		var storageRef = firebase.storage().ref();
+
+
 
 		var selectedFile = $('#input')[0].files[0];
 
@@ -255,13 +253,19 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
 			function(snapshot) {
 				var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-				console.log('Upload is ' + progress + '% done');
+                toastr.warning('Upload is ' + progress.toFixed(0) + '% done');
+                $(".progress-bar").animate({
+                    width: progress.toFixed(0) + '%'
+                }, 2500);
+                //console.log('Upload is ' + progress + '% done');
 				switch (snapshot.state) {
 					case firebase.storage.TaskState.PAUSED: // or 'paused'
-						console.log('Upload is paused');
+                        toastr.success('Upload is paused');
+                        //console.log('Upload is paused');
 						break;
 					case firebase.storage.TaskState.RUNNING: // or 'running'
-						console.log('Upload is running');
+                        //toastr.success('Upload is running');
+                        console.log('Upload is running');
 						break;
 				}
 			}, function(error) {
@@ -277,7 +281,9 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 						break;
 				}
 			}, function() {
-				var downloadURL = uploadTask.snapshot.downloadURL;
+                toastr.success('Upload is Completed!');
+
+                var downloadURL = uploadTask.snapshot.downloadURL;
 				console.log(downloadURL);
 				var fpreview = angular.element( document.querySelector('#previewImg'));
 				var input = angular.element('<img src="'+ downloadURL +'" width="150" height="150">');
