@@ -7,6 +7,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	// download the data into a local object
 	$scope.recipes = $firebaseArray(ref);
 	console.log($scope.recipes);
+	$scope.existID = false;
 
 	//Default Values
 	$scope.divHome = false;
@@ -129,7 +130,22 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	};
 
 
+    $scope.AutoGetRecipeID = function () {
+        var tempID=0;
+        while ($scope.existID != true) {
+            tempID++;
+            $scope.checkRecipeID(tempID);
+        };
+        $scope.txt_id = tempID;
+    }
+
 	$scope.AddRecipe = function () {
+
+        $scope.checkRecipeID($scope.txt_id);
+        if ($scope.existID==true) {
+            alert("ID đã tồn tại. Vui lòng chọn lại!");
+            return;
+        };
 
 		// A post entry.
 		for(var i = 0; i <= $scope.CountGiavi;i++){
@@ -153,6 +169,14 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			}
 		}
 
+		if ($scope.checkRecipeID($scope.txt_id) == true) {
+            alert("ID da ton tai");
+            return;
+        }
+        else console.log("ID khong ton tai, tao du lieu!");
+
+
+
 		firebase.database().ref('recipes/all/'+$scope.txt_id).set({
 			recipeName: $scope.txt_recipeName,
 			category: $scope.txt_category,
@@ -164,9 +188,27 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			time: $scope.txt_time,
 			view: $scope.txt_view
 		});
-		console.log($scope.txt_step);
-		console.log($scope.txt_ingredients);
-	}
+
+	};
+
+    $scope.checkRecipeID = function (recipeID) {
+        var refID = firebase.database().ref('recipes/all/' + recipeID );
+        refID.on('value', function(snapshot) {
+            $scope.existID =(snapshot.val() !== null);
+        });
+
+    };
+
+	$scope.checkID = function(recipeID){
+        $scope.checkRecipeID(recipeID);
+        if ($scope.existID==true) {
+            alert("ID đã tồn tại. Vui lòng chọn lại!");
+        }
+        else
+		{
+			alert("ID có thể sử dụng.");
+		}
+    };
 
 
 
