@@ -11,8 +11,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	//Default Values
 	$scope.divHome = false;
 	$scope.divShowData = false;
-	$scope.divAddData = false;
-	$scope.divUpload = true;
+	$scope.divAddData = true;
+	$scope.divUpload = false;
 
 	$scope.txt_id = '';
 	$scope.txt_recipeName = '';
@@ -67,33 +67,51 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		$scope.CountGiavi++;
 		var fTenGV = angular.element( document.querySelector('#frmTenGiaVi'));
 		var fSoLuongGV = angular.element( document.querySelector('#frmSoLuongGiaVi'));
+		var fPreGiavi = angular.element( document.querySelector('#frmPreGiavi'));
 
-		var inputTenGV = angular.element('<input type="text" id="idTenGV'+ $scope.CountGiavi +'" class="form-control" ng-model="txt_ingredients['+ $scope.CountGiavi +']" placeholder="Tên gia vị">');
-		var inputSoLuongGV = angular.element('<input type="text" id="idSoLuongGV'+ $scope.CountGiavi +'" class="form-control" ng-model="txt_ingredients2['+ $scope.CountGiavi +']" placeholder="Số lượng" >');
+		var inputTenGV = angular.element('<input type="text" id="idTenGV'+ $scope.CountGiavi +'" class="form-control" ng-model="txt_ingredients['+ $scope.CountGiavi +']" placeholder="Tên gia vị" required>');
+		var inputSoLuongGV = angular.element('<input type="text" id="idSoLuongGV'+ $scope.CountGiavi +'" class="form-control" ng-model="txt_ingredients2['+ $scope.CountGiavi +']" placeholder="Số lượng" required>');
+		var inputPreGiavi = angular.element('<li id="idPreGiaVi'+ $scope.CountGiavi +'"><span ng-bind="txt_ingredients['+ $scope.CountGiavi +']"></span>: <span ng-bind="txt_ingredients2['+ $scope.CountGiavi +']"></span><br/></li>');
 
 		var compile = $compile(inputTenGV)($scope);
 		compile = $compile(inputSoLuongGV)($scope);
-
+		compile = $compile(inputPreGiavi)($scope);
 		fTenGV.append(inputTenGV);
 		fSoLuongGV.append(inputSoLuongGV);
-		};
+        fPreGiavi.append(inputPreGiavi);
+    };
 
 	$scope.DeleteGiaVi = function () {
 		if ($scope.CountGiavi==0) return;
 		var fTenGV = angular.element( document.querySelector('#idTenGV'+ $scope.CountGiavi +''));
 		var fSoLuongGV = angular.element( document.querySelector('#idSoLuongGV'+ $scope.CountGiavi +''));
+        var fPreGiavi = angular.element( document.querySelector('#idPreGiaVi'+ $scope.CountGiavi +''));
 
 		fTenGV.remove();
 		fSoLuongGV.remove();
-		$scope.CountGiavi--;
+		fPreGiavi.remove();
+
+        //Preview
+        var fPreGiaviTen = angular.element( document.querySelector('#idPreGiaViTen'+ $scope.CountGiavi +''));
+        var fPreGiaviSoLuong = angular.element( document.querySelector('#idPreGiaViSoLuong'+ $scope.CountGiavi +''));
+        fPreGiaviTen.remove();
+        fPreGiaviSoLuong.remove();
+
+        $scope.CountGiavi--;
 	};
 
 	$scope.AddStep = function () {
 		$scope.CountStep++;
 		var fStep = angular.element( document.querySelector('#frmStep'));
-		var input = angular.element('<label id="idStepLabel'+ $scope.CountStep +'">- Bước '+ ($scope.CountStep + 1) +'</label><textarea type="text" id="idStep'+ $scope.CountStep +'" class="form-control" ng-model="txt_step['+ $scope.CountStep +']" placeholder="Bước '+ ($scope.CountStep + 1) +'" ></textarea> <input type="text" id="idStepImg'+ $scope.CountStep +'" class="form-control" ng-model="txt_stepImg['+ $scope.CountStep +']" placeholder="Link ảnh bước '+ ($scope.CountStep + 1) +'" >');
+        var fStep2 = angular.element( document.querySelector('#frmPreStep'));
+
+        var input = angular.element('<label id="idStepLabel'+ $scope.CountStep +'">- Bước '+ ($scope.CountStep + 1) +'</label><textarea type="text" id="idStep'+ $scope.CountStep +'" class="form-control" ng-model="txt_step['+ $scope.CountStep +']" placeholder="Bước '+ ($scope.CountStep + 1) +'" required></textarea> <input type="text" id="idStepImg'+ $scope.CountStep +'" class="form-control" ng-model="txt_stepImg['+ $scope.CountStep +']" placeholder="Link ảnh bước '+ ($scope.CountStep + 1) +'" required >');
+		var input2 = angular.element('<li id="idPreStep'+ $scope.CountStep +'"><img ng-src="{{txt_stepImg['+ $scope.CountStep +']}}" alt="Ảnh lỗi!" height="auto" width="auto"><br/><span ng-bind="txt_step['+ $scope.CountStep +']"></span><br/></li>');
 		var compile = $compile(input)($scope);
-		fStep.append(input);
+         compile = $compile(input2)($scope);
+
+        fStep.append(input);
+        fStep2.append(input2);
 	};
 
 	$scope.DeleteStep = function () {
@@ -101,10 +119,12 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
         var fStepLabel = angular.element( document.querySelector('#idStepLabel'+ $scope.CountStep +''));
         var fStep = angular.element( document.querySelector('#idStep'+ $scope.CountStep +''));
         var fStepImg = angular.element( document.querySelector('#idStepImg'+ $scope.CountStep +''));
+        var fPreStep = angular.element( document.querySelector('#idPreStep'+ $scope.CountStep +''));
 
 		fStep.remove();
         fStepImg.remove();
         fStepLabel.remove();
+        fPreStep.remove();
 		$scope.CountStep--;
 	};
 
@@ -112,7 +132,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	$scope.AddRecipe = function () {
 
 		// A post entry.
-		for(var i = 0; i < $scope.txt_ingredients.length;i++){
+		for(var i = 0; i <= $scope.CountGiavi;i++){
 			{
 				var temp = {
 					name : $scope.txt_ingredients[i],
@@ -123,7 +143,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			}
 		}
 
-		for(var i = 0; i < $scope.txt_step.length;i++){
+		for(var i = 0; i <= $scope.CountStep;i++){
 			{
 				var temp2 = {
                     image: $scope.txt_stepImg[i],
@@ -147,6 +167,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		console.log($scope.txt_step);
 		console.log($scope.txt_ingredients);
 	}
+
+
 
 	$scope.uploadFile = function(){
 

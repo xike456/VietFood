@@ -50,7 +50,6 @@
             </div>
         </div>
 
-
         <!-- Div for showing airline details -->
         <div ng-show="divAddData">
             <div class="row" style="width: 90%; margin-left: 5px;">
@@ -60,23 +59,23 @@
                         <form>
                             <div class="form-group">
                                 <label>$id Món ăn</label>
-                                <input type="number" class="form-control" ng-model="txt_id" placeholder="Nhập mã món ăn"  >
+                                <input type="number" class="form-control" ng-model="txt_id" placeholder="Nhập mã món ăn"  required>
                             </div>
                             <div class="form-group">
                                 <label>Tên công thúc món ăn</label>
-                                <input type="text" class="form-control" ng-model="txt_recipeName" placeholder="Nhập tên công thức món ăn" >
+                                <input type="text" class="form-control" ng-model="txt_recipeName" placeholder="Nhập tên công thức món ăn" required>
                             </div>
                             <div class="form-group">
                                 <label>Loại món ăn</label>
-                                <input type="text" class="form-control" ng-model="txt_category" placeholder="Nhập loại món ăn" >
+                                <input type="text" class="form-control" ng-model="txt_category" placeholder="Nhập loại món ăn" required>
                             </div>
                             <div class="form-group">
                                 <label>Ảnh món ăn</label>
-                                <input type="text" class="form-control" ng-model="txt_demoImage" placeholder="Nhập link ảnh món ăn" >
+                                <input type="text" class="form-control" ng-model="txt_demoImage" placeholder="Nhập link ảnh món ăn" required>
                             </div>
                             <div class="form-group">
                                 <label>Độ khó</label>
-								<select ng-model="txt_difficulty" class="form-control">
+								<select ng-model="txt_difficulty" class="form-control" required>
 									<option value="Rất dễ">Rất dễ</option>
 									<option value="Dễ">Dễ</option>
 									<option value="Trung Bình">Trung Bình</option>
@@ -88,10 +87,10 @@
 								<label>Gia vị</label>
 								<div class="row">
 									<div class="col-md-6" id="frmTenGiaVi">
-										<input type="text"  class="form-control" ng-model="txt_ingredients[0]" placeholder="Tên gia vị" >
+										<input type="text"  class="form-control" ng-model="txt_ingredients[0]" placeholder="Tên gia vị" required>
 									</div>
 									<div class="col-md-6" id="frmSoLuongGiaVi">
-										<input type="text"  class="form-control" ng-model="txt_ingredients2[0]" placeholder="Số lượng" >
+										<input type="text"  class="form-control" ng-model="txt_ingredients2[0]" placeholder="Số lượng" required>
 									</div>
 
 								</div>
@@ -101,14 +100,14 @@
 							</div>
                             <div class="form-group">
 								<label>Đánh giá món ăn</label>
-								<textarea type="text" class="form-control" ng-model="txt_review" placeholder="Nhập đánh giá món ăn" ></textarea>
+								<textarea type="text" class="form-control" ng-model="txt_review" placeholder="Nhập đánh giá món ăn" required></textarea>
 							</div>
 							<div class="form-group" >
 								<label>Các bước thực hiện</label>
 								<div id="frmStep">
 									<label>- Bước 1</label>
-									<textarea type="text" class="form-control" ng-model="txt_step[0]" placeholder="Bước 1" ></textarea>
-									<input type="text"  class="form-control" ng-model="txt_stepImg[0]" placeholder="Link ảnh bước 1" >
+									<textarea type="text" class="form-control" ng-model="txt_step[0]" placeholder="Bước 1" required></textarea>
+									<input type="text"  class="form-control" ng-model="txt_stepImg[0]" placeholder="Link ảnh bước 1" required>
 								</div>
 								<button class="btn btn-warning btn-sm" ng-click="AddStep()">Thêm Bước Làm</button>
 								<button class="btn btn-warning btn-sm" ng-click="DeleteStep()">Xóa Bước Làm</button>
@@ -117,7 +116,7 @@
 
                             <div class="form-group">
 								<label>Thời gian hoàn thành</label>
-								<input type="number" class="form-control" ng-model="txt_time" placeholder="Nhập thời gian nấu món ăn (phút)">
+								<input type="number" class="form-control" ng-model="txt_time" placeholder="Nhập thời gian nấu món ăn (phút)" required>
 							</div>
 							<div class="form-group">
 								<label>Lượt view</label>
@@ -132,7 +131,26 @@
                         </form>
                     </div>
                 </div>
+				<div class="col-md-4">
+				<h4>Preview</h4>
+					<label>$id công thức: </label>	<span ng-bind="txt_id"></span><br/>
+					<label>Tên công thức: </label>	<span ng-bind="txt_recipeName"></span><br/>
+					<label>Loại món ăn: </label>	<span ng-bind="txt_category"></span><br/>
+					<label>Ảnh món ăn: </label> <img ng-src="{{txt_demoImage}}" alt="Ảnh lỗi!" height="auto" width="auto"><br/>
+					<label>Độ khó: </label>	<span ng-bind="txt_difficulty"></span><br/>
+					<label>Gia vị: </label>
+						<ol id="frmPreGiavi">
+							<li><span ng-bind="txt_ingredients[0]"></span>: <span ng-bind="txt_ingredients2[0]"></span><br/></li>
+						</ol>
+					<label>Đánh giá: </label><span ng-bind="txt_review"></span><br/>
+					<label>Bước thực hiện: </label>
+					<ol id="frmPreStep">
+						<li><img ng-src="{{txt_stepImg[0]}}" alt="Ảnh lỗi!" height="auto" width="auto"><br/>
+						<span ng-bind="txt_step[0]"></span><br/>
+						</li>
+					</ol>
 
+				</div>
             </div>
         </div>
 
