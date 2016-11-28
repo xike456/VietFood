@@ -15,8 +15,9 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	//Default Values
 	$scope.divHome = false;
 	$scope.divShowData = false;
-	$scope.divAddData = true;
+	$scope.divAddData = false;
 	$scope.divUpload = false;
+    $scope.divEditData = true;
 
 	$scope.txt_id = 0;
 	$scope.txt_recipeName = '';
@@ -68,6 +69,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 		$scope.divHome = false;
 		$scope.divAddData = false;
 		$scope.divUpload = false;
+		$scope.divEditData = false;
 
 	};
 
@@ -222,6 +224,14 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
             toastr.success('ID có thể sử dụng.');
 		}
     };
+
+	$scope.DeleteRecipe = function(recipeID){
+        // var DeleteRef = firebase.database().ref('recipes/all/' + recipeID);
+        // DeleteRef.remove();
+        bootbox.confirm("Bạn có chắc chắn xóa công thức này không?", function(result) {
+        })
+
+	};
 
  	// $scope.UploadCopyLink = function () {
     //     ZeroClipboard.config( { swfPath: "https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.swf" } );

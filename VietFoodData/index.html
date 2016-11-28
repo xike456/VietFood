@@ -5,16 +5,18 @@
 <link rel="icon" href="images/fav.ico">
 
 <!-- Angular -->
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
-<script src="https://code.angularjs.org/1.5.8/angular-sanitize.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+	<script src="https://code.angularjs.org/1.5.8/angular-sanitize.js"></script>
 	<script src="https://cdn.firebase.com/libs/angularfire/2.1.0/angularfire.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="js/app.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<link rel ="stylesheet" href ="css/bootstrap.min.css">
-<link rel ="stylesheet" href = "css/bootstrap-theme.min.css">
+	<link rel ="stylesheet" href = "css/bootstrap-theme.min.css">
 	<link rel ="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 	<link rel ="stylesheet" href = "css/style.css">
 
@@ -170,11 +172,17 @@
 							<th>steps</th>
 							<th>time</th>
 							<th>view</th>
+
 						</tr>
 						<tr ng-repeat="recipe in recipes">
 							<!--<td class="tableCenter">{{ x.AirplaneID }}</td>-->
 							<td class="tableCenter">{{ recipe.$id }}</td>
-							<td class="tableCenter">{{ recipe.recipeName }} </td>
+							<td class="tableCenter">{{ recipe.recipeName }}
+								<br/>
+								<input type="image"	src="images/ic_delete.png" ng-click="DeleteRecipe(recipe.$id)">
+								<input type="image"	src="images/ic_edit.png" ng-click="">
+
+							</td>
 							<td class="tableCenter">{{ recipe.category }}</td>
 							<td class="tableCenter"><img src="{{ recipe.demoImage }}" width="150" height="150"></td>
 							<td class="tableCenter">{{ recipe.difficulty }}</td>
@@ -195,7 +203,6 @@
 
 							<td class="tableCenter">{{ recipe.time }}</td>
 							<td class="tableCenter">{{ recipe.view }}</td>
-
 						</tr>
 					</table>
 			</div>
@@ -233,6 +240,7 @@
 		</div>
     </div>
 	<script type="text/javascript">
+
 		toastr.options = {
 			"closeButton": true,
 			"debug": false,
