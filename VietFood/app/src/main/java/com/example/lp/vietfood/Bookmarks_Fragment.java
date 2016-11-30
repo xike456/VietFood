@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,8 +50,10 @@ public class Bookmarks_Fragment extends Fragment {
         data.add("/recipes/all/9");
         data.add("/recipes/all/10");
 
-        LoadBm(data);
-
+        LoadBm(MainActivity.user.bookmarks);
+        if(!MainActivity.user.login){
+            Toast.makeText(myView.getContext(), "Login to use bookmark!", Toast.LENGTH_SHORT).show();
+        }
         return myView;
     }
 

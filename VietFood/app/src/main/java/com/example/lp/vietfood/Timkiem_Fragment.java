@@ -92,7 +92,7 @@ public class Timkiem_Fragment extends Fragment {
         final ProgressDialog progress = new ProgressDialog(getContext());
         progress.setMessage("Loading...");
         progress.show();
-        FirebaseDatabase.getInstance().getReference("recipes/all").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("recipes/all").orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dt: dataSnapshot.getChildren()) {

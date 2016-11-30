@@ -89,7 +89,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if(v == btnLogin){
-            if(editEmail.getText().toString()!= "" && editPass.getText().toString() !=""){
+            if(editEmail.getText().toString().length()> 0 && editPass.getText().toString().length() >0){
                 loginFirebase(editEmail.getText().toString(), editPass.getText().toString());
             }
         }

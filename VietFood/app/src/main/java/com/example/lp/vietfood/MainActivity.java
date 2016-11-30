@@ -45,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Filter;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -203,6 +204,16 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void GetFilterFragment(String filter){
+        Filter_Fragment filter_fragment = new Filter_Fragment();
+        Bundle bund = new Bundle();
+        bund.putString("filter", filter);
+        filter_fragment.setArguments(bund);
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, filter_fragment);
+        fragmentTransaction.commit();
+    }
+
     public void HanderIndex(){
         //UI Grid and ViewPager
         new Handler().post(new Runnable() {
@@ -291,19 +302,19 @@ public class MainActivity extends AppCompatActivity
                 host.setCurrentTab(1);
 
                 gvtab1 = (GridView) findViewById(R.id.gridViewFragmentOne);
-                GridTab adaptertab1 = new GridTab(getApplication(), itemsthucdon);
+                GridTab adaptertab1 = new GridTab(MainActivity.this, itemsthucdon);
                 gvtab1.setAdapter(adaptertab1);
 
                 gvtab2 = (GridView) findViewById(R.id.gridViewFragmentTwo);
-                GridTab adaptertab2 = new GridTab(getApplication(), itemsloaimon);
+                GridTab adaptertab2 = new GridTab(MainActivity.this, itemsloaimon);
                 gvtab2.setAdapter(adaptertab2);
 
                 gvtab3 = (GridView) findViewById(R.id.gridViewFragmentThree);
-                GridTab adaptertab3 = new GridTab(getApplication(), itemsamthuc);
+                GridTab adaptertab3 = new GridTab(MainActivity.this, itemsamthuc);
                 gvtab3.setAdapter(adaptertab3);
 
                 gvtab4 = (GridView) findViewById(R.id.gridViewFragmentFour);
-                GridTab adaptertab4 = new GridTab(getApplication(), itemsmucdich);
+                GridTab adaptertab4 = new GridTab(MainActivity.this, itemsmucdich);
                 gvtab4.setAdapter(adaptertab4);
 
                 ImageView imgnotif = (ImageView) findViewById(R.id.searchbutton);
@@ -387,7 +398,7 @@ public class MainActivity extends AppCompatActivity
             GetAboutMeFragment();
 
         } else if (id == R.id.nav_share) {
-
+            //GetFilterFragment("Chè Cháo");
         }
         else if (id == R.id.nav_bookmarks) {
             GetBookmarksFragment();
