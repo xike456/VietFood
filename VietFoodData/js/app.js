@@ -36,7 +36,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
     $scope.txt_stepImg2 = [];
 
     $scope.txt_time = '';
-    $scope.txt_view = 0;
+    $scope.txt_view = '0';
 
 	$scope.CountStep = 0;
 	$scope.CountGiavi = 0;
@@ -146,6 +146,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 
 
     $scope.AutoGetRecipeID = function () {
+    	console.log($scope.txt_view);
         var tempID=0;
         $scope.checkRecipeID(tempID);
         while ($scope.existID != false) {
@@ -154,6 +155,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			if (tempID > 2000) return;
         };
         $scope.txt_id = tempID;
+        console.log($scope.txt_view);
+
         toastr.success('Get ID thành công. ID có thể dùng là:'+tempID);
     }
 
@@ -208,7 +211,8 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 			}
 		}
 
-		firebase.database().ref('recipes/all/'+$scope.txt_id).set({
+
+        firebase.database().ref('recipes/all/'+$scope.txt_id).set({
 			recipeName: $scope.txt_recipeName,
 			category: $scope.txt_category,
 			demoImage: $scope.txt_demoImage,
