@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -96,9 +97,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Index Fragment When Open App
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.getInstance().setPersistenceEnabled(true);
+        if (firebaseDatabase == null) {
+            firebaseDatabase = FirebaseDatabase.getInstance();
+            firebaseDatabase.getInstance().setPersistenceEnabled(true);
+        }
         GetIndexFragment();
 
 
@@ -391,10 +393,10 @@ public class MainActivity extends AppCompatActivity
             GetBookmarksFragment();
         }
         else if (id == R.id.nav_login) {
-
+            startLogin();
         }
         else if (id == R.id.nav_logout) {
-
+            startLogout();
         }
 
 
@@ -402,5 +404,27 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void startLogout() {
+        if(!user.login){
+            Toast.makeText(this, "Login first!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        user.login = false;
+        user.name = "No name";
+        user.id = "";
+        firebaseAuth.signOut();
+        startLogin();
+    }
+
+    public void startLogin() {
+        if (user.login) {
+            Toast.makeText(this, "Logged in", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent i = new Intent(this, Login.class);
+        startActivity(i);
+        finish();
     }
 }
