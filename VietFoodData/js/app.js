@@ -36,7 +36,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
     $scope.txt_stepImg2 = [];
 
     $scope.txt_time = '';
-    $scope.txt_view = '0';
+    $scope.txt_view = 0;
 
 	$scope.CountStep = 0;
 	$scope.CountGiavi = 0;
