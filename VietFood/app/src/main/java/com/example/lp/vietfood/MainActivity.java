@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity
     public void LoadHotRecipe(){
         hotDialog = new ProgressDialog(this);
         hotDialog.setMessage("Loading...");
+        hotDialog.setCancelable(false);
         hotDialog.show();
         firebaseDatabase.getReference("/recipes/hot/").addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity
     public void LoadMostView(final Activity contextParent){
         mostviewDialog = new ProgressDialog(this);
         mostviewDialog.setMessage("Loading...");
+        mostviewDialog.setCancelable(false);
         mostviewDialog.show();
         firebaseDatabase.getReference("/recipes/all/").orderByChild("view").limitToLast(9).addListenerForSingleValueEvent(new ValueEventListener() {
 

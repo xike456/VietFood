@@ -210,13 +210,17 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(v == btnSend){
-            if(editComment.getText().toString()!=""){
-                Comment(k, editComment.getText().toString());
-                editComment.setText("");
+            if(MainActivity.user.login){
+                if(editComment.getText().toString().length()>0){
+                    Comment(k, editComment.getText().toString());
+                    editComment.setText("");
+                }else{
+                    Toast.makeText(FoodDetail.this, "Please enter comment",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
-            else            {
-                Toast.makeText(FoodDetail.this, "commend fail",
-                        Toast.LENGTH_SHORT).show();
+            else{
+                Toast.makeText(FoodDetail.this, "Login to commend", Toast.LENGTH_SHORT).show();
             }
         }
 

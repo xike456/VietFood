@@ -12,10 +12,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by xquan on 11/24/2016.
- */
-
 public class ListRecipeAdapter extends ArrayAdapter<Recipe> {
     List<Recipe> recipes = new ArrayList<>();
     int layoutId;

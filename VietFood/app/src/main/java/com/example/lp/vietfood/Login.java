@@ -1,5 +1,6 @@
 package com.example.lp.vietfood;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     private TextView txtRegister;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +104,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
     }
 
     public void loginFirebase(String email, String password){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Login...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d("Login", "signInWithEmail:onComplete:" + task.isSuccessful());
                         if (!task.isSuccessful()) {
+                            progressDialog.hide();
                             Toast.makeText(Login.this, "Login fail",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -120,6 +128,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                                     for (DataSnapshot s: dataSnapshot.getChildren()) {
                                         MainActivity.user.bookmarks.add(s.getValue(String.class));
                                     }
+                                    progressDialog.hide();
                                     startMainActivity();
                                 }
 
