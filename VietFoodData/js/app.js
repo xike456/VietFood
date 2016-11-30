@@ -15,9 +15,9 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
 	//Default Values
 	$scope.divHome = false;
 	$scope.divShowData = false;
-	$scope.divAddData = false;
+	$scope.divAddData = true;
 	$scope.divUpload = false;
-    $scope.divEditData = true;
+    $scope.divEditData = false;
 
 	$scope.txt_id = 0;
 	$scope.txt_recipeName = '';
@@ -36,7 +36,7 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
     $scope.txt_stepImg2 = [];
 
     $scope.txt_time = '';
-    $scope.txt_view = '';
+    $scope.txt_view = 0;
 
 	$scope.CountStep = 0;
 	$scope.CountGiavi = 0;
@@ -157,7 +157,25 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
         toastr.success('Get ID thành công. ID có thể dùng là:'+tempID);
     }
 
+    $scope.checkRecipeID = function (recipeID) {
+        var refID = firebase.database().ref('recipes/all/' + recipeID );
+        refID.once('value', function(snapshot) {
+            $scope.existID =(snapshot.val() !== null);
+        });
 
+    };
+
+    $scope.checkID = function(recipeID){
+        $scope.checkRecipeID(recipeID);
+        if ($scope.existID==true) {
+            //  alert("ID đã tồn tại. Vui lòng chọn lại!");
+            toastr.error('ID đã tồn tại, vui lòng chọn lại.');
+        }
+        else
+        {
+            toastr.success('ID có thể sử dụng.');
+        }
+    };
 
 	$scope.AddRecipe = function () {
 
@@ -205,30 +223,16 @@ app.controller('VietFoodController', function ($scope, $firebaseObject, $firebas
         toastr.success('THÊM CÔNG THỨC THÀNH CÔNG!');
     };
 
-    $scope.checkRecipeID = function (recipeID) {
-        var refID = firebase.database().ref('recipes/all/' + recipeID );
-        refID.once('value', function(snapshot) {
-            $scope.existID =(snapshot.val() !== null);
-        });
-
-    };
-
-	$scope.checkID = function(recipeID){
-        $scope.checkRecipeID(recipeID);
-        if ($scope.existID==true) {
-          //  alert("ID đã tồn tại. Vui lòng chọn lại!");
-            toastr.error('ID đã tồn tại, vui lòng chọn lại.');
-        }
-        else
-		{
-            toastr.success('ID có thể sử dụng.');
-		}
-    };
-
 	$scope.DeleteRecipe = function(recipeID){
         // var DeleteRef = firebase.database().ref('recipes/all/' + recipeID);
         // DeleteRef.remove();
         bootbox.confirm("Bạn có chắc chắn xóa công thức này không?", function(result) {
+        	if (result==true)
+			{
+                var DeleteRef = firebase.database().ref('recipes/all/' + recipeID);
+                DeleteRef.remove();
+                toastr.success('Xóa món ăn thành công!');
+            }
         })
 
 	};

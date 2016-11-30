@@ -143,15 +143,17 @@
 					<label>Độ khó: </label>	<span ng-bind="txt_difficulty"></span><br/>
 					<label>Gia vị: </label>
 						<ol id="frmPreGiavi">
-							<li><span ng-bind="txt_ingredients[0]"></span>: <span ng-bind="txt_ingredients2[0]"></span><br/></li>
+							<li> <span ng-bind="txt_ingredients[0]"></span>: <span ng-bind="txt_ingredients2[0]"></span><br/></li>
 						</ol>
-					<label>Đánh giá: </label><span ng-bind="txt_review"></span><br/>
+					<label>Đánh giá: </label> <span ng-bind="txt_review"></span><br/>
 					<label>Bước thực hiện: </label>
 					<ol id="frmPreStep">
 						<li><img ng-src="{{txt_stepImg[0]}}" alt="Ảnh lỗi!" height="auto" width="auto"><br/>
 						<span ng-bind="txt_step[0]"></span><br/>
 						</li>
 					</ol>
+					<label>Thời gian hoàn thành: </label> <span ng-bind="txt_time"></span><br/>
+					<label>Lượt xem: </label> <span ng-bind="txt_view"></span><br/>
 
 				</div>
             </div>
@@ -180,7 +182,7 @@
 							<td class="tableCenter">{{ recipe.recipeName }}
 								<br/>
 								<input type="image"	src="images/ic_delete.png" ng-click="DeleteRecipe(recipe.$id)">
-								<input type="image"	src="images/ic_edit.png" ng-click="">
+								<!--<input type="image"	src="images/ic_edit.png" ng-click="">-->
 
 							</td>
 							<td class="tableCenter">{{ recipe.category }}</td>
