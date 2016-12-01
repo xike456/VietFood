@@ -25,8 +25,11 @@ public class ListView2Adapter extends ArrayAdapter<String>{
     }
     @Override
     public View getView(int position, View view, ViewGroup parent) {
+        Integer pos = position+1;
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.item_cachthuchien, null, true);
+        TextView steps = (TextView) rowView.findViewById(R.id.step);
+        steps.setText("Bước " +pos.toString());
         TextView Buoc = (TextView) rowView.findViewById(R.id.txtBuocThucHien);
         ImageView imgStep = (ImageView) rowView.findViewById(R.id.imgStep);
         UrlImageViewHelper.setUrlDrawable(imgStep, imageStep[position]);

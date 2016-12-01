@@ -45,7 +45,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Filter;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity
     TabHost tabHost;
 
     //Firebase instance
-    private static FirebaseDatabase firebaseDatabase;
+    private static FirebaseDatabase firebaseDatabase = Firebase.firebaseDatabase;
     private static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     //List recipes
@@ -98,10 +97,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Index Fragment When Open App
-
-        if (firebaseDatabase == null) {
-            firebaseDatabase = FirebaseDatabase.getInstance();
-        }
+//        if (firebaseDatabase == null) {
+//            firebaseDatabase = FirebaseDatabase.getInstance();
+//            firebaseDatabase.getInstance().setPersistenceEnabled(true);
+//        }
         GetIndexFragment();
 
 
@@ -127,17 +126,12 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                hotRecipes.clear();
                 for(DataSnapshot dt: dataSnapshot.getChildren()){
-                    try{
-                        Recipe recipe = (Recipe) dt.getValue(Recipe.class);
-                        String id = dt.getKey();
-                        recipe.id = id;
-                        recipe.path = "/recipes/hot/";
-                        hotRecipes.add(recipe);
-                    }catch (Exception e){
-
-                    }
+                    Recipe a = (Recipe) dt.getValue(Recipe.class);
+                    String k = dt.getKey();
+                    a.id = k;
+                    a.path = "/recipes/hot/";
+                    hotRecipes.add(a);
                 }
                 slideAdapter = new SlideAdapter(getApplicationContext(), hotRecipes);
                 viewPager = (ViewPager) findViewById(R.id.view_paper);
@@ -160,20 +154,12 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mostViewRecipes.clear();
                 for(DataSnapshot dt: dataSnapshot.getChildren()){
-                    Recipe recipe;
-
-                    try{
-                        recipe = (Recipe) dt.getValue(Recipe.class);
-                        String id = dt.getKey();
-                        recipe.id = id;
-                        recipe.path = "/recipes/all/";
-                        mostViewRecipes.add(recipe);
-                    }
-                    catch (Exception e){
-
-                    }
+                    Recipe a = (Recipe) dt.getValue(Recipe.class);
+                    String k = dt.getKey();
+                    a.id = k;
+                    a.path = "/recipes/all/";
+                    mostViewRecipes.add(a);
                 }
                 gv = (GridView) contextParent.findViewById(R.id.gridView);
                 CustomApdater adapter = new CustomApdater(contextParent, mostViewRecipes);
@@ -215,16 +201,6 @@ public class MainActivity extends AppCompatActivity
     public void GetAboutMeFragment(){
         Intent intent = new Intent(this, ActivityAboutme.class);
         startActivity(intent);
-    }
-
-    public void GetFilterFragment(String filter){
-        Filter_Fragment filter_fragment = new Filter_Fragment();
-        Bundle bund = new Bundle();
-        bund.putString("filter", filter);
-        filter_fragment.setArguments(bund);
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, filter_fragment);
-        fragmentTransaction.commit();
     }
 
     public void HanderIndex(){
@@ -411,7 +387,7 @@ public class MainActivity extends AppCompatActivity
             GetAboutMeFragment();
 
         } else if (id == R.id.nav_share) {
-            //GetFilterFragment("Chè Cháo");
+
         }
         else if (id == R.id.nav_bookmarks) {
             GetBookmarksFragment();

@@ -33,8 +33,10 @@
 
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".Login" />
-        <activity android:name=".Register" />
+        <activity android:name=".Login"
+            android:label="@string/login"/>
+        <activity android:name=".Register"
+            android:label="@string/register"/>
         <activity android:name=".ActivityAboutme"></activity>
     </application>
 
