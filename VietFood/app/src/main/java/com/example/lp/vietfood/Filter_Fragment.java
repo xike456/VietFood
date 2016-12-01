@@ -54,11 +54,6 @@ public class Filter_Fragment extends Fragment {
         Bundle bund = getArguments();
         filter = bund.getString("filter");
         filters = filter.split(" ");
-
-        data.add("/recipes/all/8");
-        data.add("/recipes/all/9");
-        data.add("/recipes/all/10");
-
         LoadRecipe(filters);
         return myView;
     }
@@ -84,6 +79,9 @@ public class Filter_Fragment extends Fragment {
                 }
                 adapter.notifyDataSetChanged();
                 progress.hide();
+                if( recipes.isEmpty() ){
+                    Toast.makeText(getContext(), "Data is updating...", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
