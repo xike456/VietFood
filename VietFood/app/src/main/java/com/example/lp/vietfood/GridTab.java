@@ -1,6 +1,8 @@
 package com.example.lp.vietfood;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +52,16 @@ public class GridTab extends BaseAdapter{
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(c,"Gridtab so : " + items[position], Toast.LENGTH_SHORT).show();
+                //Toast.makeText(c,"Gridtab so : " + items[position], Toast.LENGTH_SHORT).show();
+                Filter_Fragment filter_fragment = new Filter_Fragment();
+                Bundle bund = new Bundle();
+                bund.putString("filter", items[position]);
+                filter_fragment.setArguments(bund);
+                android.support.v4.app.FragmentTransaction fragmentTransaction = ((FragmentActivity) c ).getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, filter_fragment);
+                fragmentTransaction.commit();
             }
         });
         return v;
-
     }
 }

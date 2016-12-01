@@ -17,24 +17,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <EditText
-            android:background="@null"
+            android:paddingLeft="15dp"
+            android:background="@drawable/editbox_border"
             android:layout_marginTop="50dp"
             android:inputType="textEmailAddress"
             android:id="@+id/edit_email"
             android:hint="Email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="35dp" />
         <EditText
-            android:background="@null"
+            android:paddingLeft="15dp"
+            android:background="@drawable/editbox_border"
             android:layout_marginTop="10dp"
             android:inputType="textPassword"
             android:id="@+id/edit_password"
             android:hint="Password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="35dp" />
         <Button
+            android:textSize="20sp"
+            android:background="@drawable/login_boder"
             android:id="@+id/btn_login"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:text="Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -42,7 +46,7 @@
             android:textSize="20sp"
             android:id="@+id/txt_register"
             android:textColor="#4778ea"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:textAlignment="center"
             android:text="Register"
             android:layout_width="match_parent"
@@ -51,7 +55,7 @@
             android:textSize="18sp"
             android:id="@+id/txt_skip"
             android:textColor="#4778ea"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:textAlignment="center"
             android:text="Skip"
             android:layout_width="match_parent"

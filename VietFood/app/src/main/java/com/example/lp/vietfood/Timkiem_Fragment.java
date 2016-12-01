@@ -1,12 +1,14 @@
 package com.example.lp.vietfood;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -20,21 +22,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by LP on 10/22/2016.
- */
 public class Timkiem_Fragment extends Fragment {
 
     ListView lv;
     SearchView sv;
-    String[] teams={"Canh","Man City","Chelsea","Arsenal","Liverpool","Totenham"};
-    RecipeHelper helper = new RecipeHelper();
-    List<String> bookmark = new ArrayList<>();
-    List<String> data = new ArrayList<>();
+    List<String> listName =new ArrayList<>();
 
-    //ArrayAdapter<String> adapter;
-    ListRecipeAdapter adapter;
+    ArrayAdapter<String> adapter;
 
     List<Recipe> recipes = new ArrayList<Recipe>();
     View myView;
@@ -46,12 +40,19 @@ public class Timkiem_Fragment extends Fragment {
         sv=(SearchView) myView.findViewById(R.id.searchView1);
         lv=(ListView) myView.findViewById(R.id.listView1);
 
-        data.add("/recipes/all/8");
-        data.add("/recipes/all/9");
-        data.add("/recipes/all/10");
-        //adapter=new ArrayAdapter<String>(myView.getContext(), android.R.layout.simple_list_item_1, bookmark);
-        adapter = new ListRecipeAdapter(myView.getContext(), R.layout.item_recipe, recipes);
+        adapter=new ArrayAdapter<String>(myView.getContext(), android.R.layout.simple_list_item_1, listName);
         lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String name =(String) parent.getAdapter().getItem(position);
+                Intent i = new Intent(getContext(), FoodDetail.class);
+                i.putExtra("recipe", recipes.get(listName.indexOf(name)));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(i);
+            }
+        });
+        LoadRecipe();
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -65,45 +66,27 @@ public class Timkiem_Fragment extends Fragment {
                 return false;
             }
         });
-        //LoadBm(MainActivity.user.bookmarks);
-        LoadRecipe();
         return myView;
-    }
-
-    public void LoadBm(List<String> bm) {
-        for (String s: bm) {
-            FirebaseDatabase.getInstance().getReference(s).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Recipe k = dataSnapshot.getValue(Recipe.class);
-                    bookmark.add(k.recipeName);
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
     }
 
     public void LoadRecipe() {
         final ProgressDialog progress = new ProgressDialog(getContext());
         progress.setMessage("Loading...");
+        progress.setCancelable(false);
         progress.show();
-        FirebaseDatabase.getInstance().getReference("recipes/all").addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("recipes/all").orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                listName.clear();
                 for (DataSnapshot dt: dataSnapshot.getChildren()) {
-                    Recipe a = (Recipe) dt.getValue(Recipe.class);
-                    String k = dt.getKey();
-                    a.id = k;
-                    a.path = "/recipes/all/";
-                    recipes.add(a);
-                    bookmark.add(a.recipeName);
-                    progress.hide();
+                    Recipe recipe = (Recipe) dt.getValue(Recipe.class);
+                    String id = dt.getKey();
+                    recipe.id = id;
+                    recipe.path = "/recipes/all/";
+                    recipes.add(recipe);
+                    listName.add(recipe.recipeName);
                 }
+                progress.hide();
                 adapter.notifyDataSetChanged();
             }
 

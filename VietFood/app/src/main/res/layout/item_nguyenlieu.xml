@@ -15,6 +15,7 @@
 
 
     <TextView
+        android:textSize="17dp"
         android:id="@+id/txtNguyenLieu"
         android:layout_gravity="left|center"
         android:layout_width="wrap_content"
@@ -23,6 +24,7 @@
         android:layout_marginLeft="15dp" />
 
     <TextView
+        android:textSize="17dp"
         android:id="@+id/txtSoluong"
         android:layout_gravity="left|center"
         android:layout_width="170dp"

@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
     TabHost tabHost;
 
     //Firebase instance
-    private static FirebaseDatabase firebaseDatabase;
+    private static FirebaseDatabase firebaseDatabase = Firebase.firebaseDatabase;
     private static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     //List recipes
@@ -97,10 +97,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Index Fragment When Open App
-        if (firebaseDatabase == null) {
-            firebaseDatabase = FirebaseDatabase.getInstance();
-            firebaseDatabase.getInstance().setPersistenceEnabled(true);
-        }
+//        if (firebaseDatabase == null) {
+//            firebaseDatabase = FirebaseDatabase.getInstance();
+//            firebaseDatabase.getInstance().setPersistenceEnabled(true);
+//        }
         GetIndexFragment();
 
 
@@ -181,16 +181,20 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
     public void GetBookmarksFragment(){
-        Bookmarks_Fragment bookmarks_fragment = new Bookmarks_Fragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, bookmarks_fragment);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(this, Activity_Bookmarks.class);
+        startActivity(intent);
+//        Bookmarks_Fragment bookmarks_fragment = new Bookmarks_Fragment();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_container, bookmarks_fragment);
+//        fragmentTransaction.commit();
     }
     public void GetTimKiemFragment(){
-        Timkiem_Fragment timkiem_fragment = new Timkiem_Fragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, timkiem_fragment);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(this, Activity_TimKiem.class);
+        startActivity(intent);
+//        Timkiem_Fragment timkiem_fragment = new Timkiem_Fragment();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_container, timkiem_fragment);
+//        fragmentTransaction.commit();
     }
     public void GetCongThucFragment(){
         Congthuc_Fragment congthuc_fragment = new Congthuc_Fragment();
@@ -201,6 +205,16 @@ public class MainActivity extends AppCompatActivity
     public void GetAboutMeFragment(){
         Intent intent = new Intent(this, ActivityAboutme.class);
         startActivity(intent);
+    }
+
+    public void ShareApp(){
+        String textshare="VietFood - Ứng dụng công thức nấu ăn hấp dẫn\nTruy cập vào http://vietfood.ga và sử dụng cùng mình nhé!";
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, textshare);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     public void HanderIndex(){
@@ -291,19 +305,19 @@ public class MainActivity extends AppCompatActivity
                 host.setCurrentTab(1);
 
                 gvtab1 = (GridView) findViewById(R.id.gridViewFragmentOne);
-                GridTab adaptertab1 = new GridTab(getApplication(), itemsthucdon);
+                GridTab adaptertab1 = new GridTab(MainActivity.this, itemsthucdon);
                 gvtab1.setAdapter(adaptertab1);
 
                 gvtab2 = (GridView) findViewById(R.id.gridViewFragmentTwo);
-                GridTab adaptertab2 = new GridTab(getApplication(), itemsloaimon);
+                GridTab adaptertab2 = new GridTab(MainActivity.this, itemsloaimon);
                 gvtab2.setAdapter(adaptertab2);
 
                 gvtab3 = (GridView) findViewById(R.id.gridViewFragmentThree);
-                GridTab adaptertab3 = new GridTab(getApplication(), itemsamthuc);
+                GridTab adaptertab3 = new GridTab(MainActivity.this, itemsamthuc);
                 gvtab3.setAdapter(adaptertab3);
 
                 gvtab4 = (GridView) findViewById(R.id.gridViewFragmentFour);
-                GridTab adaptertab4 = new GridTab(getApplication(), itemsmucdich);
+                GridTab adaptertab4 = new GridTab(MainActivity.this, itemsmucdich);
                 gvtab4.setAdapter(adaptertab4);
 
                 ImageView imgnotif = (ImageView) findViewById(R.id.searchbutton);
@@ -337,7 +351,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             new AlertDialog.Builder(this)
-                    .setMessage("Click Yes To Exit !!")
+                    .setMessage("Bạn có muốn thoát khỏi VietFood không?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -368,6 +382,8 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -386,8 +402,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_aboutme) {
             GetAboutMeFragment();
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_sharebutton) {
+            ShareApp();
         }
         else if (id == R.id.nav_bookmarks) {
             GetBookmarksFragment();
@@ -405,6 +421,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     public void startLogout() {
         if(!user.login){

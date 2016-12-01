@@ -17,24 +17,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <EditText
-            android:background="@null"
+            android:paddingLeft="15dp"
+            android:background="@drawable/editbox_border"
             android:layout_marginTop="50dp"
             android:inputType="textEmailAddress"
             android:id="@+id/edit_email_reg"
             android:hint="Email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="35dp" />
         <EditText
-            android:background="@null"
+            android:paddingLeft="15dp"
+            android:background="@drawable/editbox_border"
             android:layout_marginTop="10dp"
             android:inputType="textPassword"
             android:id="@+id/edit_password_reg"
             android:hint="Password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="35dp" />
         <Button
+            android:textSize="20sp"
+            android:background="@drawable/login_boder"
             android:id="@+id/btn_register"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:text="Register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

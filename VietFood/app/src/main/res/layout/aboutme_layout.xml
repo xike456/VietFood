@@ -23,6 +23,8 @@
         android:layout_alignParentBottom="true"
         android:text="Ngô Chí Hải\nNguyễn Minh Phú\nĐặng Xuân Quang\nLê Tấn Vũ\nTrượng La Nha\nĐào Minh Tuấn\nTrần Ngô Việt Hưng\nVõ Ngọc Bảo\nNguyễn Ngọc Sơn\nNguyễn Văn Lượng
 "
-        android:id="@+id/textView2" />
+        android:id="@+id/textView2"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"/>
 
 </RelativeLayout>

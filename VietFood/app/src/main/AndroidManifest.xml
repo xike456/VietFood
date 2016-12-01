@@ -33,8 +33,14 @@
 
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".Login" />
-        <activity android:name=".Register" />
+        <activity android:name=".Login"
+            android:label="@string/login"/>
+        <activity android:name=".Register"
+            android:label="@string/register"/>
+        <activity android:name=".Activity_TimKiem"
+            android:label="@string/app_name"/>
+        <activity android:name=".Activity_Bookmarks"
+            android:label="@string/app_name"/>
         <activity android:name=".ActivityAboutme"></activity>
     </application>
 

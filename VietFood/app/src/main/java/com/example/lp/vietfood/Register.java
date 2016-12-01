@@ -43,6 +43,7 @@ public class Register extends AppCompatActivity  implements View.OnClickListener
 
     public void registerNewAccount(String email, String pass) {
         progressDialog.setMessage("Registering user...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
         firebaseAuth.createUserWithEmailAndPassword(email, pass)
@@ -72,8 +73,11 @@ public class Register extends AppCompatActivity  implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v == btnReg) {
-            if (editEmail.getText().toString() != null && editPass.getText().toString() != null) {
+            if (!editEmail.getText().toString().equals("") && !editPass.getText().toString().equals("")) {
                 registerNewAccount(editEmail.getText().toString(), editPass.getText().toString());
+            }
+            else{
+                Toast.makeText(this, "Enter email and password", Toast.LENGTH_SHORT).show();
             }
         }
     }
