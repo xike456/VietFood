@@ -130,11 +130,11 @@ public class MainActivity extends AppCompatActivity
                 hotRecipes.clear();
                 for(DataSnapshot dt: dataSnapshot.getChildren()){
                     try{
-                        Recipe a = (Recipe) dt.getValue(Recipe.class);
-                        String k = dt.getKey();
-                        a.id = k;
-                        a.path = "/recipes/hot/";
-                        hotRecipes.add(a);
+                        Recipe recipe = (Recipe) dt.getValue(Recipe.class);
+                        String id = dt.getKey();
+                        recipe.id = id;
+                        recipe.path = "/recipes/hot/";
+                        hotRecipes.add(recipe);
                     }catch (Exception e){
 
                     }
@@ -162,14 +162,14 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mostViewRecipes.clear();
                 for(DataSnapshot dt: dataSnapshot.getChildren()){
-                    Recipe a;
+                    Recipe recipe;
 
                     try{
-                        a = (Recipe) dt.getValue(Recipe.class);
-                        String k = dt.getKey();
-                        a.id = k;
-                        a.path = "/recipes/all/";
-                        mostViewRecipes.add(a);
+                        recipe = (Recipe) dt.getValue(Recipe.class);
+                        String id = dt.getKey();
+                        recipe.id = id;
+                        recipe.path = "/recipes/all/";
+                        mostViewRecipes.add(recipe);
                     }
                     catch (Exception e){
 
