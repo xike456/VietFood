@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Index Fragment When Open App
+
         if (firebaseDatabase == null) {
             firebaseDatabase = FirebaseDatabase.getInstance();
-            firebaseDatabase.getInstance().setPersistenceEnabled(true);
         }
         GetIndexFragment();
 
@@ -127,12 +127,17 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                hotRecipes.clear();
                 for(DataSnapshot dt: dataSnapshot.getChildren()){
-                    Recipe a = (Recipe) dt.getValue(Recipe.class);
-                    String k = dt.getKey();
-                    a.id = k;
-                    a.path = "/recipes/hot/";
-                    hotRecipes.add(a);
+                    try{
+                        Recipe a = (Recipe) dt.getValue(Recipe.class);
+                        String k = dt.getKey();
+                        a.id = k;
+                        a.path = "/recipes/hot/";
+                        hotRecipes.add(a);
+                    }catch (Exception e){
+
+                    }
                 }
                 slideAdapter = new SlideAdapter(getApplicationContext(), hotRecipes);
                 viewPager = (ViewPager) findViewById(R.id.view_paper);
@@ -155,12 +160,20 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mostViewRecipes.clear();
                 for(DataSnapshot dt: dataSnapshot.getChildren()){
-                    Recipe a = (Recipe) dt.getValue(Recipe.class);
-                    String k = dt.getKey();
-                    a.id = k;
-                    a.path = "/recipes/all/";
-                    mostViewRecipes.add(a);
+                    Recipe a;
+
+                    try{
+                        a = (Recipe) dt.getValue(Recipe.class);
+                        String k = dt.getKey();
+                        a.id = k;
+                        a.path = "/recipes/all/";
+                        mostViewRecipes.add(a);
+                    }
+                    catch (Exception e){
+
+                    }
                 }
                 gv = (GridView) contextParent.findViewById(R.id.gridView);
                 CustomApdater adapter = new CustomApdater(contextParent, mostViewRecipes);

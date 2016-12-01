@@ -43,6 +43,7 @@ public class Register extends AppCompatActivity  implements View.OnClickListener
 
     public void registerNewAccount(String email, String pass) {
         progressDialog.setMessage("Registering user...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
         firebaseAuth.createUserWithEmailAndPassword(email, pass)

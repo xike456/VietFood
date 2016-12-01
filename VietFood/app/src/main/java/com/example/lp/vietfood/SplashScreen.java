@@ -30,7 +30,7 @@ public class SplashScreen extends Activity {
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 2000;
-    private static FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private static FirebaseDatabase firebaseDatabase;
     private static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private List<Recipe> hotRecipes = new ArrayList<Recipe>();
     private List<Recipe> mostViewRecipes = new ArrayList<Recipe>();
@@ -39,7 +39,8 @@ public class SplashScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        firebaseDatabase = FirebaseDatabase.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
