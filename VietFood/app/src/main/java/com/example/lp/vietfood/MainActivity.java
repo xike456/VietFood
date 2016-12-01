@@ -181,16 +181,20 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
     public void GetBookmarksFragment(){
-        Bookmarks_Fragment bookmarks_fragment = new Bookmarks_Fragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, bookmarks_fragment);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(this, Activity_Bookmarks.class);
+        startActivity(intent);
+//        Bookmarks_Fragment bookmarks_fragment = new Bookmarks_Fragment();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_container, bookmarks_fragment);
+//        fragmentTransaction.commit();
     }
     public void GetTimKiemFragment(){
-        Timkiem_Fragment timkiem_fragment = new Timkiem_Fragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, timkiem_fragment);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(this, Activity_TimKiem.class);
+        startActivity(intent);
+//        Timkiem_Fragment timkiem_fragment = new Timkiem_Fragment();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.fragment_container, timkiem_fragment);
+//        fragmentTransaction.commit();
     }
     public void GetCongThucFragment(){
         Congthuc_Fragment congthuc_fragment = new Congthuc_Fragment();
