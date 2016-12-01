@@ -152,7 +152,6 @@ public class FoodDetail extends AppCompatActivity  implements View.OnClickListen
                 sendIntent.putExtra(Intent.EXTRA_TEXT, url.getText());
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
-
             }
         });
 

@@ -203,6 +203,16 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void ShareApp(){
+        String textshare="VietFood - Ứng dụng công thức nấu ăn hấp dẫn\nTruy cập vào http://vietfood.ga và sử dụng cùng mình nhé!";
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, textshare);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+
     public void HanderIndex(){
         //UI Grid and ViewPager
         new Handler().post(new Runnable() {
@@ -337,7 +347,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             new AlertDialog.Builder(this)
-                    .setMessage("Click Yes To Exit !!")
+                    .setMessage("Bạn có muốn thoát khỏi VietFood không?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -368,6 +378,8 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -386,8 +398,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_aboutme) {
             GetAboutMeFragment();
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_sharebutton) {
+            ShareApp();
         }
         else if (id == R.id.nav_bookmarks) {
             GetBookmarksFragment();
@@ -405,6 +417,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     public void startLogout() {
         if(!user.login){
